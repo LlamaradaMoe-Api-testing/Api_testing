@@ -1,0 +1,9 @@
+config.py
+venv
+__pycache__
+__pycache__/
+.idea
+delete-page.py
+get-all.py
+get-token.py
+post-create-page.py
