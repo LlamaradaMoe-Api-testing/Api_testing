@@ -1,1 +1,0 @@
-URI = "http://localhost/test1/wp-json/wp/v2/pages/11"
