@@ -8,10 +8,10 @@ class Requests:
         self.headers: dict = headers
         self.payload: dict = payload
         self.request_dic: dict = {
-            'put': requests.get(self.url, headers=self.headers, data=self.payload),
+            'put': requests.put(self.url, headers=self.headers, data=self.payload),
             'get': requests.get(self.url, headers=self.headers, data=self.payload),
-            'post': requests.get(self.url, headers=self.headers, data=self.payload),
-            'delete': requests.get(self.url, headers=self.headers, data=self.payload)
+            'post': requests.post(self.url, headers=self.headers, data=self.payload),
+            'delete': requests.delete(self.url, headers=self.headers, data=self.payload)
         }
 
     def get_request(self, method):
