@@ -1,52 +1,27 @@
-from dataclasses import dataclass
-
 import requests
+import json
 
 
-@dataclass
-class Response:
-    status_code: int
-    test: str
-    as_dict: object
-    headers: dict
+class Requests:
+    def __init__(self, url, headers, payload):
+        self.url: str = url
+        self.headers: dict = headers
+        self.payload: dict = payload
+        self.request_dic: dict = {
+            'put': requests.get(self.url, headers=self.headers, data=self.payload),
+            'get': requests.get(self.url, headers=self.headers, data=self.payload),
+            'post': requests.get(self.url, headers=self.headers, data=self.payload),
+            'delete': requests.delete(self.url, headers=self.headers, data=self.payload)
+        }
 
+    def get_request(self, method):
+        return self.request_dic.get(method)
 
-class APIRequest:
-    def get(self, url):
-        response = requests.get(url)
-        return self.__get_responses(response)
-
-    def post(self, url, payload, headers):
-        response = requests.post(url, data=payload, headers=headers)
-        return self.__get_responses(response)
-
-    def delete(self, url):
-        response = requests.delete(url)
-        return self.__get_responses(response)
-
-    def head(self, url):
-        response = requests.head(url)
-        return self.__get_responses(response)
-
-    def patch(self, url, payload):
-        response = requests.patch(url, data=payload)
-        return self.__get_responses(response)
-
-    def put(self, url, payload):
-        response = requests.put(url, data=payload)
-        return self.__get_responses(response)
-
-    def request(self, method, url, headers, payload):
-        response = requests.request(method, url, headers=headers, data=payload)
-        return self.__get_responses(response)
-
-    def __get_responses(self, response):
+    def get_responses(self, response):
         status_code = response.status_code
         text = response.text
         try:
-            as_dict = response.json()
-        except Exception:
-            as_dict = {}
-
-        headers = response.headers
-        return Response(status_code, text, as_dict, headers)
+            dict_response = response.json()
+        except Exception as e:
+            dict_response = {}
+        return dict_response, status_code
