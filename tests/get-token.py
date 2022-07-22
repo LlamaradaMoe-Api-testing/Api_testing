@@ -2,6 +2,7 @@ from assertpy.assertpy import assert_that
 import json
 from utils.requests import Requests
 from config import USERNAME, PASSWORD, BASE_URI, AUTHORIZATION
+from http import HTTPStatus
 
 
 def test_get_token():
@@ -11,7 +12,7 @@ def test_get_token():
     headers = {}
     response = Requests(BASE_URI, headers, payload)
     responses = response.get_responses(response.get_request('post'))
-    assert_that(responses[status_code]).is_equal_to(200)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     assert_that(responses[dict_response]['jwt_token']).is_not_empty()
     json_response = json.dumps(responses[dict_response], indent=2)
     print(json_response)
