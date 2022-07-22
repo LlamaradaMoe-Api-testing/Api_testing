@@ -11,14 +11,11 @@
 # with Jalasoft.
 #
 
-#import requests
 from utils.requests import Requests
 import json
 from assertpy.assertpy import assert_that
 from config import URI
 from config import AUTHORIZATION
-from config import NONCE
-from config import COOKIE
 
 
 def test_create_post():
@@ -26,24 +23,16 @@ def test_create_post():
     url = f'{URI}/wp-json/wp/v2/pages/'
     status_code = 1
     payload = json.dumps({
-      "title": "Hello!!!",
+      "title": "Hello world!!!",
       "status": "publish",
       "content": "Hello this is a test for api testing"
     })
     headers = {
-      'Cookie': COOKIE,
-      'X-WP-Nonce': NONCE,
       'Authorization': 'Bearer ' + AUTHORIZATION,
       'Content-Type': 'application/json'
     }
 
-    #response = requests.request("POST", url, headers=headers, data=payload)
     response = Requests(url, headers, payload)
     responses = response.get_responses(response.get_request('post'))
-    #posts = responses.json()
     print(responses)
     assert_that(responses[status_code]).is_equal_to(201)
-
-
-#test_create_post()
-
