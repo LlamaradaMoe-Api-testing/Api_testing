@@ -7,7 +7,7 @@ from utils.print_helpers import pretty_print
 
 
 def test_login():
-    url = f'{URI}/wp-json/api/v1/token'
+    url = f'{URI}/api/v1/token'
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     payload = f"username={USER}&password={PASS}"
     response = requests.post(url, headers=headers, data=payload)
@@ -16,5 +16,3 @@ def test_login():
     token_type = response.json()['token_type']
     return token_type + " " + jwt_token
 
-
-#test_login()
