@@ -36,3 +36,5 @@ def test_create_post():
     responses = response.get_responses(response.get_request('post'))
     print(responses)
     assert_that(responses[status_code]).is_equal_to(201)
+
+test_create_post()
