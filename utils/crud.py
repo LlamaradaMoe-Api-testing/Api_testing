@@ -1,5 +1,5 @@
 #
-# crud-page.py Copyright (c) 2022 Jalasoft.
+# crud.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -47,5 +47,11 @@ class CrudPage:
     def get_by_id(self, id):
         payload = {}
         response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        responses = response.get_responses(response.get_request('get'))
+        return responses
+
+    def get_token(self, payload):
+        headers = {}
+        response = Requests(f'{BASE_URI}/api/v1/token', headers, payload)
         responses = response.get_responses(response.get_request('get'))
         return responses
