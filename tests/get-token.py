@@ -1,5 +1,5 @@
 #
-# create-page.py Copyright (c) 2022 Jalasoft.
+# get-token.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -11,24 +11,24 @@
 # with Jalasoft.
 #
 
+
+from config import USERNAME, PASSWORD, AUTHORIZATION
 from assertpy.assertpy import assert_that
-import json
 from http import HTTPStatus
 from utils.crud import CrudPage
 
 
-def test_create_post():
+def test_get_token():
     status_code = 1
     dict_response = 0
     json_response = 2
-    payload = json.dumps({
-      "title": "Hello world!!!",
-      "status": "publish",
-      "content": ""
-    })
-    responses = CrudPage().post(payload)
-    print(responses[json_response])
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    payload = {'username': USERNAME, 'password': PASSWORD}
+    responses = CrudPage().get_token(payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    assert_that(responses[dict_response]['jwt_token']).is_not_empty()
+    filename = "../config.py"
+    text = open(filename).read()
+    open(filename, "w+").write(text.replace(AUTHORIZATION, 'Bearer '+responses[dict_response]['jwt_token']))
 
 
-test_create_post()
+test_get_token()

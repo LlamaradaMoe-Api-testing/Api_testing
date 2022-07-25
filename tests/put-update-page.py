@@ -1,11 +1,26 @@
+#
+# put-update-page.py Copyright (c) 2022 Jalasoft.
+# 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
+# Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
+# All rights reserved.
+#
+# This software is the confidential and proprietary information of
+# Jalasoft, ("Confidential Information"). You shall not
+# disclose such Confidential Information and shall use it only in
+# accordance with the terms of the license agreement you entered into
+# with Jalasoft.
+#
+
 from assertpy.assertpy import assert_that
-from config import BASE_URI_PUT, AUTHORIZATION
 import json
-from utils.requests import Requests
+from http import HTTPStatus
+from utils.crud import CrudPage
+
 
 def test_put_update():
     status_code = 1
     dict_response = 0
+    json_response = 2
     id = '22'
     payload = json.dumps({
         "id": id,
@@ -13,13 +28,9 @@ def test_put_update():
         "status": "private",
         "content": ""
     })
-    headers = {
-        'Authorization': AUTHORIZATION,
-        'Content-Type': 'application/json'
-    }
-    response = Requests(BASE_URI_PUT+id, headers, payload)
-    responses = response.get_responses(response.get_request('put'))
-    assert_that(responses[status_code]).is_equal_to(200)
+    responses = CrudPage().put(id, payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    print(responses[json_response])
 
 
 test_put_update()
