@@ -42,8 +42,3 @@ class CreatePage(CreatePage):
 
     def set_token(self, token):
         self.token = token
-
-
-def tests():
-    t = CreatePage('UwU', 'publish', 'content')
-    t.create()

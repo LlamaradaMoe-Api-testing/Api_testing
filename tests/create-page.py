@@ -17,6 +17,7 @@ from assertpy.assertpy import assert_that
 from config import URI
 from config import AUTHORIZATION
 from utils.pretty_print import pretty_print
+from helpers.create_page import CreatePage
 
 
 def test_create_post():
@@ -32,6 +33,11 @@ def test_create_post():
       'Authorization': 'Bearer ' + AUTHORIZATION,
       'Content-Type': 'application/json'
     }
+
+    page = CreatePage("Hello page", "publish", "this content")
+    pages = page.create()
+    print(pages[1])
+    assert_that(pages[1]).is_equal_to(201)
 
     response = Requests(url, headers, payload)
     responses = response.get_responses(response.get_request('post'))
