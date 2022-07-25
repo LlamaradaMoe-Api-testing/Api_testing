@@ -1,5 +1,5 @@
 #
-# create-page.py Copyright (c) 2022 Jalasoft.
+# delete-page.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -11,33 +11,27 @@
 # with Jalasoft.
 #
 
-from utils.requests import Requests
-import json
 from assertpy.assertpy import assert_that
-from config import BASE_URI
-from config import AUTHORIZATION
+from config import BASE_URI, AUTHORIZATION
+from utils.requests import Requests
 from http import HTTPStatus
 
 
-def test_create_post():
-
-    url = f'{BASE_URI}/wp/v2/pages/'
+def test_delete():
     status_code = 1
+    dict_response = 0
     json_response = 2
-    payload = json.dumps({
-      "title": "Hello world!!!",
-      "status": "publish",
-      "content": ""
-    })
+    id = "40"
+    payload = {}
     headers = {
-      'Authorization': AUTHORIZATION,
-      'Content-Type': 'application/json'
+        'Authorization': AUTHORIZATION,
+        'Content-Type': 'application/json'
     }
 
-    response = Requests(url, headers, payload)
-    responses = response.get_responses(response.get_request('post'))
+    response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', headers, payload)
+    responses = response.get_responses(response.get_request('delete'))
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     print(responses[json_response])
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
-
-test_create_post()
+    
+test_delete()

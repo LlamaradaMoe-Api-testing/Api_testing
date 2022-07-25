@@ -37,4 +37,5 @@ class Requests:
             dict_response = response.json()
         except Exception as e:
             dict_response = {}
-        return dict_response, status_code
+        json_response = json.dumps(dict_response, indent=2)
+        return dict_response, status_code, json_response
