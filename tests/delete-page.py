@@ -12,24 +12,17 @@
 #
 
 from assertpy.assertpy import assert_that
-from config import BASE_URI, AUTHORIZATION
-from utils.requests import Requests
+import json
 from http import HTTPStatus
+from utils.crud import CrudPage
 
 
 def test_delete():
     status_code = 1
     dict_response = 0
     json_response = 2
-    id = "40"
-    payload = {}
-    headers = {
-        'Authorization': AUTHORIZATION,
-        'Content-Type': 'application/json'
-    }
-
-    response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', headers, payload)
-    responses = response.get_responses(response.get_request('delete'))
+    id = "45"
+    responses = CrudPage().delete(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     print(responses[json_response])
 

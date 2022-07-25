@@ -11,31 +11,22 @@
 # with Jalasoft.
 #
 
-from utils.requests import Requests
-import json
 from assertpy.assertpy import assert_that
-from config import BASE_URI
-from config import AUTHORIZATION
+import json
 from http import HTTPStatus
+from utils.crud import CrudPage
 
 
 def test_create_post():
-
-    url = f'{BASE_URI}/wp/v2/pages/'
     status_code = 1
+    dict_response = 0
     json_response = 2
     payload = json.dumps({
       "title": "Hello world!!!",
       "status": "publish",
       "content": ""
     })
-    headers = {
-      'Authorization': AUTHORIZATION,
-      'Content-Type': 'application/json'
-    }
-
-    response = Requests(url, headers, payload)
-    responses = response.get_responses(response.get_request('post'))
+    responses = CrudPage().post(payload)
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 

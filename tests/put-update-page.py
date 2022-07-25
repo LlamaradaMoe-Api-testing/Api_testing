@@ -13,13 +13,14 @@
 
 from assertpy.assertpy import assert_that
 import json
-from
 from http import HTTPStatus
+from utils.crud import CrudPage
 
 
 def test_put_update():
     status_code = 1
     dict_response = 0
+    json_response = 2
     id = '22'
     payload = json.dumps({
         "id": id,
@@ -27,13 +28,9 @@ def test_put_update():
         "status": "private",
         "content": ""
     })
-    headers = {
-        'Authorization': AUTHORIZATION,
-        'Content-Type': 'application/json'
-    }
-    response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', headers, payload)
-    responses = response.get_responses(response.get_request('put'))
+    responses = CrudPage().put(id, payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    print(responses[json_response])
 
 
 test_put_update()
