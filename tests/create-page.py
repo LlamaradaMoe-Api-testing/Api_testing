@@ -1,5 +1,5 @@
 #
-# create-page.py Copyright (c) 2022 Jalasoft.
+# build_create_page.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -16,6 +16,7 @@ import json
 from assertpy.assertpy import assert_that
 from config import URI
 from config import AUTHORIZATION
+from utils.pretty_print import pretty_print
 
 
 def test_create_post():
@@ -35,4 +36,5 @@ def test_create_post():
     response = Requests(url, headers, payload)
     responses = response.get_responses(response.get_request('post'))
     print(responses)
-    assert_that(responses[status_code]).is_equal_to(201)
+    pretty_print(responses)
+    assert_that(responses[1]).is_equal_to(201)
