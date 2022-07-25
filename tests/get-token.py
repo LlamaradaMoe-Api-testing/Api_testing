@@ -12,10 +12,10 @@
 #
 
 
-from config import USERNAME, PASSWORD, AUTHORIZATION
+from helpers.config import USERNAME, PASSWORD, AUTHORIZATION
 from assertpy.assertpy import assert_that
 from http import HTTPStatus
-from utils.crud import CrudPage
+from helpers.crud import CrudPage
 
 
 def test_get_token():
@@ -26,7 +26,7 @@ def test_get_token():
     responses = CrudPage().get_token(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     assert_that(responses[dict_response]['jwt_token']).is_not_empty()
-    filename = "../config.py"
+    filename = "../helpers/config.py"
     text = open(filename).read()
     open(filename, "w+").write(text.replace(AUTHORIZATION, 'Bearer '+responses[dict_response]['jwt_token']))
 

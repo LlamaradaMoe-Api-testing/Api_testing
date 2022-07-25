@@ -11,8 +11,8 @@
 # with Jalasoft.
 #
 
-from utils.requests import Requests
-from config import BASE_URI, AUTHORIZATION
+from utils.api_requests import Api_Requests
+from helpers.config import BASE_URI, AUTHORIZATION
 
 
 class CrudPage:
@@ -23,35 +23,35 @@ class CrudPage:
         }
 
     def put(self, id, payload):
-        response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('put'))
         return responses
 
     def post(self, payload):
-        response = Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
         responses = response.get_responses(response.get_request('post'))
         return responses
 
     def delete(self, id):
         payload = {}
-        response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('delete'))
         return responses
 
     def get_all(self):
         payload = {}
-        response = Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
         responses = response.get_responses(response.get_request('get'))
         return responses
 
     def get_by_id(self, id):
         payload = {}
-        response = Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('get'))
         return responses
 
     def get_token(self, payload):
         headers = {}
-        response = Requests(f'{BASE_URI}/api/v1/token', headers, payload)
-        responses = response.get_responses(response.get_request('get'))
+        response = Api_Requests(f'{BASE_URI}/api/v1/token', headers, payload)
+        responses = response.get_responses(response.get_request('post'))
         return responses

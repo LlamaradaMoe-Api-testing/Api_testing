@@ -15,7 +15,7 @@ import requests
 import json
 
 
-class Requests:
+class Api_Requests:
     def __init__(self, url, headers, payload):
         self.url: str = url
         self.headers: dict = headers

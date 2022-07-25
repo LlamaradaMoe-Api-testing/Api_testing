@@ -14,7 +14,7 @@
 from assertpy.assertpy import assert_that
 import json
 from http import HTTPStatus
-from utils.crud import CrudPage
+from helpers.crud import CrudPage
 
 
 def test_create_post():

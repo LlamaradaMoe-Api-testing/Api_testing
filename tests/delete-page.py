@@ -1,4 +1,3 @@
-#
 # delete-page.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
@@ -12,19 +11,20 @@
 #
 
 from assertpy.assertpy import assert_that
-import json
 from http import HTTPStatus
-from utils.crud import CrudPage
+from helpers.crud import CrudPage
+from utils.print_helpers import pretty_print
 
 
 def test_delete():
     status_code = 1
     dict_response = 0
     json_response = 2
-    id = "45"
+    id = "16"
     responses = CrudPage().delete(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    print(responses[json_response])
+    pretty_print(responses[json_response])
 
-    
+
 test_delete()
+
