@@ -7,7 +7,7 @@ from helpers.print_helpers import pretty_print
 def test_delete():
     status_code = 1
     dict_response = 0
-    id = "8"
+    id = "10"
     payload = {}
     headers = {
         'Authorization': AUTHORIZATION,
