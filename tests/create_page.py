@@ -1,5 +1,5 @@
 #
-# put-update-page.py Copyright (c) 2022 Jalasoft.
+# create_page.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -17,20 +17,18 @@ from http import HTTPStatus
 from helpers.crud import CrudPage
 
 
-def test_put_update():
+def test_create_post():
     status_code = 1
     dict_response = 0
     json_response = 2
-    id = '22'
     payload = json.dumps({
-        "id": id,
-        "title": "Hello world17!!",
-        "status": "private",
-        "content": ""
+      "title": "Hello world!!!",
+      "status": "publish",
+      "content": ""
     })
-    responses = CrudPage().put(id, payload)
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    responses = CrudPage().post(payload)
     print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
 
-test_put_update()
+
