@@ -1,5 +1,4 @@
-#
-# create-page.py Copyright (c) 2022 Jalasoft.
+# delete_page.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -12,23 +11,20 @@
 #
 
 from assertpy.assertpy import assert_that
-import json
 from http import HTTPStatus
 from helpers.crud import CrudPage
+from utils.print_helpers import pretty_print
 
 
-def test_create_post():
+def test_delete():
     status_code = 1
     dict_response = 0
     json_response = 2
-    payload = json.dumps({
-      "title": "Hello world!!!",
-      "status": "publish",
-      "content": ""
-    })
-    responses = CrudPage().post(payload)
-    print(responses[json_response])
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    id = "32"
+    responses = CrudPage().delete(id)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    pretty_print(responses[json_response])
 
 
-test_create_post()
+
+
