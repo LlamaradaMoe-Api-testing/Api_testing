@@ -12,16 +12,13 @@
 #
 
 
-from helpers.config import USERNAME, PASSWORD, AUTHORIZATION
+from helpers.config import USERNAME, PASSWORD, AUTHORIZATION, status_code, json_response, dict_response
 from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
 
 
 def test_get_token():
-    status_code = 1
-    dict_response = 0
-    json_response = 2
     payload = {'username': USERNAME, 'password': PASSWORD}
     responses = CrudPage().get_token(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
