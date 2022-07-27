@@ -22,7 +22,7 @@ jobs:
 
       - name: Set config variables
         run: |
-            python3 filename = "../helpers/config.py"
+            python3 filename = "helpers/config.py"
             python3 text = open(filename).read()
             python3 open(filename, "w+").write(text.replace(BASE_URI, $BASE_URI)
             python3 open(filename, "w+").write(text.replace(USERNAME, $USERNAME)
