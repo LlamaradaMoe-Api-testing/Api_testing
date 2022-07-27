@@ -15,6 +15,8 @@ from assertpy.assertpy import assert_that
 import json
 from http import HTTPStatus
 from helpers.crud import CrudPage
+from utils.print_helpers import pretty_print
+from tests.get_token import test_get_token
 
 
 def test_create_post():
@@ -31,4 +33,72 @@ def test_create_post():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
 
+def test_validate_valid_token():
+    test_get_token()
+    status_code = 1
+    dict_response = 0
+    json_response = 2
+    payload = json.dumps({
+        "title": "Valid token!!!",
+        "status": "publish",
+        "content": ""
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
+
+def test_valid_content():
+    status_code = 1
+    dict_response = 0
+    json_response = 2
+    payload = json.dumps({
+        "title": "Valid token!!!",
+        "status": "publish",
+        "content": "Correct content"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+
+
+def test_valid_status_publish():
+    status_code = 1
+    dict_response = 0
+    json_response = 2
+    payload = json.dumps({
+        "title": "Status publish!",
+        "status": "publish",
+        "content": "Correct content"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+
+
+def test_valid_status_draft():
+    status_code = 1
+    dict_response = 0
+    json_response = 2
+    payload = json.dumps({
+        "title": "Status draft",
+        "status": "draft",
+        "content": "Correct content"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+
+
+def test_valid_status_private():
+    status_code = 1
+    dict_response = 0
+    json_response = 2
+    payload = json.dumps({
+        "title": "status private",
+        "status": "private",
+        "content": "Correct content"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
