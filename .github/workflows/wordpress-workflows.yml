@@ -1,16 +1,40 @@
 name: Build wordpress
 
 on: [push]
+env:
+  BASE_URI: ${{ secrets.BASE_URI }}
+  USERNAME: ${{ secrets.USERNAME }}
+  PASSWORD: ${{ secrets.PASSWORD }}
+  AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
 
 jobs:
   build:
-    runs-on: "name"
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v3
+    runs-on: wordpress-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-        - name: Install libraries
-          run: pip3 install -r requirements.txt
+      - name: Install libraries
+        run: pip3 install -r requirements.txt
 
-        - name: Install coverage
-          run: pip3 install coverage
+      - name: Install coverage
+        run: pip3 install coverage
+
+      - name: Set config variables
+        run: |
+            python3 filename = "../helpers/config.py"
+            python3 text = open(filename).read()
+            python3 open(filename, "w+").write(text.replace(BASE_URI, $BASE_URI)
+            python3 open(filename, "w+").write(text.replace(USERNAME, $USERNAME)
+            python3 open(filename, "w+").write(text.replace(PASSWORD, $PASSWORD)
+            python3 open(filename, "w+").write(text.replace(AUTHORIZATION, $AUTHORIZATION)            
+
+      - name: Run pytest
+        run: |
+            python3 pytest create_page.py            
+            python3 pytest get_page.py
+            python3 pytest put_update_page.py
+            python3 pytest delete_page.py
+
+      - name: Coverage
+        run: coverage run -m pytest --cov .
