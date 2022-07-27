@@ -1,5 +1,5 @@
 #
-# create-page.py Copyright (c) 2022 Jalasoft.
+# create_page.py Copyright (c) 2022 Jalasoft.
 # 2643 Av Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # Edificio Union № 1376 Av. General Inofuentes esquina Calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -11,30 +11,23 @@
 # with Jalasoft.
 #
 
-from utils.requests import Requests
-import json
 from assertpy.assertpy import assert_that
-from config import URI
-from config import AUTHORIZATION
+import json
+from http import HTTPStatus
+from helpers.crud import CrudPage
 
 
 def test_create_post():
-
-    url = f'{URI}/wp-json/wp/v2/pages/'
     status_code = 1
+    dict_response = 0
+    json_response = 2
     payload = json.dumps({
       "title": "Hello world!!!",
       "status": "publish",
-      "content": "Hello this is a test for api testing"
+      "content": ""
     })
-    headers = {
-      'Authorization': 'Bearer ' + AUTHORIZATION,
-      'Content-Type': 'application/json'
-    }
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
-    response = Requests(url, headers, payload)
-    responses = response.get_responses(response.get_request('post'))
-    print(responses)
-    assert_that(responses[status_code]).is_equal_to(201)
 
-test_create_post()

@@ -1,5 +1,8 @@
-tests/config.py
+config.py
 venv
 .idea
 .idea/
 __pycache__/
+__pycache__
+utils/__pycache__/
+utils/__pycache__
