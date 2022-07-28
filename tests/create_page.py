@@ -31,4 +31,3 @@ def test_create_post():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
 
-
