@@ -55,3 +55,9 @@ class CrudPage:
         response = Api_Requests(f'{BASE_URI}/api/v1/token', headers, payload)
         responses = response.get_responses(response.get_request('post'))
         return responses
+
+    def set_token(self, token):
+        self.headers: dict = {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }

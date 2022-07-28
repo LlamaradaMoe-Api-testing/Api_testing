@@ -5,12 +5,12 @@ on: [push]
 jobs:
   build:
     runs-on: "name"
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-        - name: Install libraries
-          run: pip3 install -r requirements.txt
+      - name: Install libraries
+        run: pip3 install -r requirements.txt
 
-        - name: Install coverage
-          run: pip3 install coverage
+      - name: Install coverage
+        run: pip3 install coverage
