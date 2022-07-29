@@ -19,10 +19,12 @@ from utils.print_helpers import pretty_print
 from helpers.config import AUTHORIZATION, status_code, json_response, dict_response
 
 def test_get_page_id():
-    id = 10
+    id = 14
     responses = CrudPage().get_by_id(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    pretty_print(responses[json_response])
+    json = responses[json_response]
+    dict = responses[dict_response]
+    pretty_print(json)
 
 def test_get_media_id():
     id = 16

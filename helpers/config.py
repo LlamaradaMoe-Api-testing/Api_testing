@@ -10,10 +10,10 @@
 # accordance with the terms of the license agreement you entered into
 # with Jalasoft.
 
-BASE_URI = 'http://<Domain>/<wordpress-project>/wp-json'
-USERNAME = '<your-username>'
-PASSWORD = '<your-password>'
-AUTHORIZATION = 'Bearer '
+BASE_URI = 'http://localhost/wordpress/wp-json'
+USERNAME = 'said'
+PASSWORD = 'root'
+AUTHORIZATION = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJzYWlkIiwiaWF0IjoxNjU5MTI2NDg1LCJleHAiOjE4MTY4MDY0ODV9.KIO4CRvjy1QtI5N2sUhQXAUV2XUCkAM5MJbiJunVxCo'
 status_code = 1
 dict_response = 0
 json_response = 2
