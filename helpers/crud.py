@@ -56,8 +56,17 @@ class CrudPage:
         responses = response.get_responses(response.get_request('post'))
         return responses
 
-    def set_token(self, token):
+    def post_with_token(self, payload, token):
         self.headers: dict = {
             'Authorization': token,
             'Content-Type': 'application/json'
         }
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
+        responses = response.get_responses(response.get_request('post'))
+        return responses
+
+    # def set_token(self, token):
+    #     self.headers: dict = {
+    #         'Authorization': token,
+    #         'Content-Type': 'application/json'
+    #     }

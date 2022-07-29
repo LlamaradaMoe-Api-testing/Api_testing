@@ -19,6 +19,7 @@ from utils.print_helpers import pretty_print
 from tests.get_token import test_get_token
 from helpers.config import status_code,json_response,dict_response
 from helpers.config import AUTHORIZATION
+from helpers.config import schema
 
 # Happy path
 def test_create_post():
@@ -146,6 +147,16 @@ def test_valid_status_private():
     assert_that(response_content['status']).is_equal_to(status)
 
 
+def test_validate_schema():
+    print(schema)
+    pretty_print(schema)
+    try:
+        json.loads(schema)
+    except ValueError as error:
+        return False
+    return True
+
+
 # Negative tests
 def test_valid_no_title():
     test_get_token()
@@ -235,21 +246,78 @@ def test_valid_void_content():
     assert_that(dic_content['raw']).is_not_empty()
 
 
+def test_invalid_status():
+    status = 'not a status'
+    payload = json.dumps({
+        "title": "void content",
+        "status": status,
+        "content": "  "
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
+    assert_that(response_content['data']['status']).is_equal_to(400)
+
+
+def test_void_status():
+    payload = json.dumps({
+        "title": "void content",
+        "status": "",
+        "content": "test for validate the void status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
+    assert_that(response_content['data']['status']).is_equal_to(400)
+
+
+def test_null_status():
+    test_get_token()
+    payload = json.dumps({
+        "title": "void content",
+        "content": "test for validate the void status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['status']).is_equal_to('draft')
+
+
 def test_invalid_token():
     invalid_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
     filename = "../helpers/config.py"
-    text = open(filename).read()
-    open(filename, "w+").write(text.replace(AUTHORIZATION, 'Bearer ' + invalid_token))
+    #text = open(filename).read()
+    text = open(filename)
+    read_text = text.read()
+    open(filename, "w+").write(read_text.replace(AUTHORIZATION, 'Bearer ' + invalid_token))
+    text.close()
     payload = json.dumps({
         "title": "invalid token",
         "status": "publish",
         "content": "test an invalid token"
     })
-    responses = CrudPage()
-    responses.set_token(invalid_token)
-    resp = responses.post(payload)
-    print(resp[json_response])
-    test_get_token()
-    assert_that(resp[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
+    responses = CrudPage().post(payload)
+    #responses.set_token(invalid_token)
+    #resp = responses.post(payload)
+    #print(resp[json_response])
+    print("------------------------------------------")
+    print(text)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
+    get_token = test_get_token()
     #assert_that(resp[dict_response]['error_description']).is_equal_to("Incorrect JWT Format.")
 
+
+def test_invalid_token():
+    invalid_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
+    payload = json.dumps({
+        "title": "invalid token",
+        "status": "publish",
+        "content": "test an invalid token"
+    })
+    responses = CrudPage().post_with_token(payload, invalid_token)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
+    assert_that(responses[dict_response]['error_description']).is_equal_to("Incorrect JWT Format.")
