@@ -10,43 +10,59 @@
 # with Jalasoft.
 #
 
+
 from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
-from tests.get_token import test_get_token
 from utils.print_helpers import pretty_print
-from helpers.config import AUTHORIZATION, status_code, json_response, dict_response
+from helpers.config import status_code, json_response, dict_response
+from helpers.payload_schema import body
 
 
+# Happy path
 def test_delete():
-    id = 37
-    responses = CrudPage().delete(id)
+    id = CrudPage().post(body())
+    payload = {}
+    responses = CrudPage().delete(id[dict_response]['id'], payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    assert_that(responses[dict_response]['status']).is_equal_to('trash')
+    pretty_print(responses[json_response])
+    responses = CrudPage().delete(id[dict_response]['id'], payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.GONE)
+
+
+def test_deleted_with_send_payload():
+    id = CrudPage().post(body())
+    responses = CrudPage().delete(id[dict_response]['id'], body())
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    payload = {}
+    responses = CrudPage().delete(id[dict_response]['id'], payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.GONE)
     pretty_print(responses[json_response])
 
-    # Negative test
 
-
+# Negative test
 def test_delete_notfound_id():
-    id = "1"
-    responses = CrudPage().delete(id)
+    id = 1
+    payload = {}
+    responses = CrudPage().delete(id, payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
 
 
 def test_delete_string_id_enter():
     id = "cuatro"
-    responses = CrudPage().delete(id)
+    payload = {}
+    responses = CrudPage().delete(id, payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
 
 
 def test_delete_incorrect_token():
-    id = "33"
-    filename = "../helpers/config.py"
-    text = open(filename).read()
-    open(filename, "w+").write(text.replace(AUTHORIZATION, 'Bearer a5s4d65ad4s5'))
-    responses = CrudPage().delete(id)
+    id = CrudPage().post(body())
+    payload = {}
+    responses = CrudPage().delete_not_token(id[dict_response]['id'], payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
     pretty_print(responses[json_response])
-    test_get_token()
+    responses = CrudPage().delete(id[dict_response]['id'], payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
