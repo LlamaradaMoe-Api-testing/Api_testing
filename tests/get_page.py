@@ -1,5 +1,5 @@
 # 
-# @object_result.py Copyright (c)
+# get_page.py Copyright (c)
 # 2643 Av  Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # 1376 Av General Inofuentes esquina calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -21,6 +21,12 @@ from helpers.config import AUTHORIZATION, status_code, json_response, dict_respo
 def test_get_page_id():
     id = 10
     responses = CrudPage().get_by_id(id)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    pretty_print(responses[json_response])
+
+def test_get_media_id():
+    id = 16
+    responses = CrudPage().get_media_by_id(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     pretty_print(responses[json_response])
 
