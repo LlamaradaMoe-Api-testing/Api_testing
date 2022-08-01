@@ -32,7 +32,7 @@ def test_create_post():
     responses = CrudPage().post(payload)
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
-
+    return responses[dict_response]['id']
 
 def test_validate_valid_token():
     test_get_token()

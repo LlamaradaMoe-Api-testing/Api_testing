@@ -32,8 +32,7 @@ class CrudPage:
         responses = response.get_responses(response.get_request('post'))
         return responses
 
-    def delete(self, id):
-        payload = {}
+    def delete(self, id, payload):
         response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('delete'))
         return responses
@@ -54,6 +53,15 @@ class CrudPage:
         headers = {}
         response = Api_Requests(f'{BASE_URI}/api/v1/token', headers, payload)
         responses = response.get_responses(response.get_request('post'))
+        return responses
+
+    def delete_not_token(self, id, payload):
+        headers: dict = {
+            'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzd",
+            'Content-Type': 'application/json'
+        }
+        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', headers, payload)
+        responses = response.get_responses(response.get_request('delete'))
         return responses
 
     def post_with_token(self, payload, token):
