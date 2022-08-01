@@ -25,7 +25,5 @@ def test_get_token():
     assert_that(responses[dict_response]['jwt_token']).is_not_empty()
     filename = "../helpers/config.py"
     text = open(filename).read()
-    open(filename, "w+").write(text.replace(AUTHORIZATION, 'Bearer '+responses[dict_response]['jwt_token']))
-
-
+    open(filename, "w+").write(text.replace(AUTHORIZATION, 'Bearer ' + responses[dict_response]['jwt_token']))
 

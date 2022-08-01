@@ -15,16 +15,18 @@ from assertpy.assertpy import assert_that
 import json
 from http import HTTPStatus
 from helpers.crud import CrudPage
+from tests.get_token import test_get_token
+from helpers.config import status_code, json_response, dict_response
+from jsonschema import validate
+from utils.print_helpers import pretty_print
 
 
+# Happy path
 def test_create_post():
-    status_code = 1
-    dict_response = 0
-    json_response = 2
     payload = json.dumps({
-      "title": "Hello world!!!",
+      "title": "Validate status response!",
       "status": "publish",
-      "content": ""
+      "content": "test for validate the status response"
     })
     responses = CrudPage().post(payload)
     print(responses[json_response])
@@ -32,3 +34,247 @@ def test_create_post():
     return responses[dict_response]['id']
 
 
+def test_validate_valid_token():
+    test_get_token()
+    payload = json.dumps({
+        "title": "Valid token!",
+        "status": "publish",
+        "content": "test with a valid token"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+
+
+def test_valid_title():
+    test_get_token()
+    title = "Valid title"
+    payload = json.dumps({
+        "title": title,
+        "status": "publish",
+        "content": "Test for validate title"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    response_title = response_content['title']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['title']).is_not_empty()
+    assert_that(response_title['raw']).is_equal_to(title)
+
+
+def test_valid_content():
+    test_get_token()
+    content = "test for validate the content"
+    payload = json.dumps({
+        "title": "Validate the content",
+        "status": "publish",
+        "content": content
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    resp_content = response_content['content']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['content']).is_not_empty()
+    assert_that(resp_content['raw']).is_equal_to(content)
+
+
+def test_valid_status_publish():
+    test_get_token()
+    status = "publish"
+    payload = json.dumps({
+        "title": "Status publish!",
+        "status": status,
+        "content": "test for validate the publish status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['status']).is_equal_to(status)
+
+
+def test_valid_status_draft():
+    test_get_token()
+    status = "draft"
+    payload = json.dumps({
+        "title": "Status draft",
+        "status": status,
+        "content": "test for validate the draft status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['status']).is_equal_to(status)
+
+
+def test_valid_status_private():
+    test_get_token()
+    status = "private"
+    payload = json.dumps({
+        "title": "status private",
+        "status": status,
+        "content": "Test for validate the private status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['status']).is_equal_to(status)
+
+
+def test_validate_schema():
+    file = open('../helpers/schema-create.json', "r")
+    schema = json.loads(file.read())
+    payload = json.dumps({
+        "title": "Schema test",
+        "status": "publish",
+        "content": "test for validate the schema response"
+    })
+    responses = CrudPage().post(payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    schema_test = json.loads(responses[json_response])
+    validate(instance=schema_test, schema=schema)
+
+
+# Negative tests
+def test_valid_no_title():
+    test_get_token()
+    payload = json.dumps({
+        "title": "",
+        "status": "publish",
+        "content": "Test for validate no title"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    dic_title = response_content['title']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(dic_title['raw']).is_equal_to('')
+
+
+def test_valid_void_title():
+    test_get_token()
+    payload = json.dumps({
+        "title": "  ",
+        "status": "publish",
+        "content": "Test for validate void title"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    dic_title = response_content['title']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(dic_title['raw']).is_equal_to('')
+
+
+def test_valid_null_title():
+    test_get_token()
+    payload = json.dumps({
+        "status": "publish",
+        "content": "Test for validate null title"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    dic_title = response_content['title']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(dic_title['raw']).is_equal_to('')
+
+
+def test_valid_null_content():
+    test_get_token()
+    payload = json.dumps({
+        "title": "null content",
+        "status": "publish",
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    dic_content = response_content['content']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(dic_content['raw']).is_equal_to('')
+
+
+def test_valid_void_content():
+    test_get_token()
+    payload = json.dumps({
+        "title": "void content",
+        "status": "publish",
+        "content": ""
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    dic_content = response_content['content']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(dic_content['raw']).is_equal_to('')
+
+
+def test_valid_no_content():
+    test_get_token()
+    payload = json.dumps({
+        "title": "void content",
+        "status": "publish",
+        "content": "  "
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    dic_content = response_content['content']
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(dic_content['raw']).is_not_empty()
+
+
+def test_invalid_status():
+    status = 'not a status'
+    payload = json.dumps({
+        "title": "void content",
+        "status": status,
+        "content": "  "
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
+    assert_that(response_content['data']['status']).is_equal_to(400)
+
+
+def test_void_status():
+    payload = json.dumps({
+        "title": "void content",
+        "status": "",
+        "content": "test for validate the void status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
+    assert_that(response_content['data']['status']).is_equal_to(400)
+
+
+def test_null_status():
+    payload = json.dumps({
+        "title": "void content",
+        "content": "test for validate the void status"
+    })
+    responses = CrudPage().post(payload)
+    print(responses[json_response])
+    response_content = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    assert_that(response_content['status']).is_equal_to('draft')
+
+
+def test_invalid_token():
+    invalid_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
+    payload = json.dumps({
+        "title": "invalid token",
+        "status": "publish",
+        "content": "test an invalid token"
+    })
+    responses = CrudPage().post_with_token(payload, invalid_token)
+    print(responses[json_response])
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
+    assert_that(responses[dict_response]['error_description']).is_equal_to("Incorrect JWT Format.")
