@@ -49,19 +49,13 @@ class CrudPage:
         responses = response.get_responses(response.get_request('get'))
         return responses
 
-    def get_media_by_id(self, id):
-        payload = {}
-        response = Api_Requests(f'{BASE_URI}/wp/v2/media/{id}', self.headers, payload)
-        responses = response.get_responses(response.get_request('get'))
-        return responses
-
     def get_token(self, payload):
         headers = {}
         response = Api_Requests(f'{BASE_URI}/api/v1/token', headers, payload)
         responses = response.get_responses(response.get_request('post'))
         return responses
 
-    def delete_not_token(self, id, payload):
+    def delete_not_token(self, id, payload,token='sasdadasdasd'):
         headers: dict = {
             'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzd",
             'Content-Type': 'application/json'
