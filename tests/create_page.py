@@ -15,12 +15,11 @@ from assertpy.assertpy import assert_that
 import json
 from http import HTTPStatus
 from helpers.crud import CrudPage
-from utils.print_helpers import pretty_print
 from tests.get_token import test_get_token
 from helpers.config import status_code,json_response,dict_response
-from helpers.config import AUTHORIZATION
 from helpers.config import schema, schema2
 from jsonschema import validate
+from utils.print_helpers import pretty_print
 
 
 # Happy path
@@ -128,9 +127,9 @@ def test_valid_status_private():
 
 def test_validate_schema():
     payload = json.dumps({
-        "title": "Status publish!",
+        "title": "Schema test",
         "status": "publish",
-        "content": "test for validate the publish status"
+        "content": "test for validate the schema response"
     })
     responses = CrudPage().post(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
@@ -212,7 +211,7 @@ def test_valid_void_content():
     assert_that(dic_content['raw']).is_equal_to('')
 
 
-def test_valid_void_content():
+def test_valid_no_content():
     test_get_token()
     payload = json.dumps({
         "title": "void content",
@@ -255,7 +254,6 @@ def test_void_status():
 
 
 def test_null_status():
-    test_get_token()
     payload = json.dumps({
         "title": "void content",
         "content": "test for validate the void status"
