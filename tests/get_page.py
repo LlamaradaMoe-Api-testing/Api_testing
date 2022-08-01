@@ -17,19 +17,45 @@ from helpers.crud import CrudPage
 from tests.get_token import test_get_token
 from utils.print_helpers import pretty_print
 from helpers.config import AUTHORIZATION, status_code, json_response, dict_response
+#happy path
+def test_get_all():
+    responses = CrudPage().get_all()
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    pretty_print(responses[json_response])
 
-def test_get_page_id():
-    id = 12
+def test_get_page_id_publish():
+    id = 10
+    title = 'Validate status response!'
+    responses = CrudPage().get_by_id(id)
+    json = responses[json_response]
+    dict = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    assert_that(dict['title']['rendered']).is_equal_to(title)
+    assert_that(dict['status']).is_equal_to('publish')
+    pretty_print(json)
+
+
+def test_get_page_id_trash():
+    id = 5
     title = 'Hello world!!!'
     responses = CrudPage().get_by_id(id)
     json = responses[json_response]
     dict = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    #assert_that(dict['title'][0]).is_equal_to(title)
+    assert_that(dict['title']['rendered']).is_equal_to(title)
+    assert_that(dict['status']).is_equal_to('trash')
+    pretty_print(json)
+
+def test_get_page_id_draft():
+    id = 5
+    title = 'Hello world!!!'
+    responses = CrudPage().get_by_id(id)
     json = responses[json_response]
     dict = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    assert_that(dict['title']['rendered']).is_equal_to(title)
+    assert_that(dict['status']).is_equal_to('trash')
     pretty_print(json)
-    #print (dict['title'][0])
 
 def test_get_media_id():
     id = 16
@@ -37,13 +63,31 @@ def test_get_media_id():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     pretty_print(responses[json_response])
 
-def test_get_all():
-    responses = CrudPage().get_all()
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    pretty_print(responses[json_response])
-
+#Negative Test
 def test_get_id_notexist():
-    id = 100
+    id = 'cuare'
     responses = CrudPage().get_by_id(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
+
+def test_get_page_id_is_not_publish():
+    id = 5
+    title = 'Hello world!!!'
+    responses = CrudPage().get_by_id(id)
+    json = responses[json_response]
+    dict = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    assert_that(dict['title']['rendered']).is_equal_to(title)
+    assert_that(dict['status']).is_not_equal_to('publish')
+    pretty_print(json)
+
+def test_get_page_id_is_not_publish():
+    id = 10
+    title = 'Validate status response!'
+    responses = CrudPage().get_by_id(id)
+    json = responses[json_response]
+    dict = responses[dict_response]
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    assert_that(dict['title']['rendered']).is_equal_to(title)
+    assert_that(dict['status']).is_not_equal_to('trash')
+    pretty_print(json)
