@@ -63,3 +63,10 @@ class CrudPage:
         response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', headers, payload)
         responses = response.get_responses(response.get_request('delete'))
         return responses
+
+    def post_with_token(self, payload, token):
+        self.headers: dict = {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+        return self.post(payload)
