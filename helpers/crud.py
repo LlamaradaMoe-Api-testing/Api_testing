@@ -55,7 +55,7 @@ class CrudPage:
         responses = response.get_responses(response.get_request('post'))
         return responses
 
-    def delete_not_token(self, id, payload):
+    def delete_not_token(self, id, payload,token='sasdadasdasd'):
         headers: dict = {
             'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzd",
             'Content-Type': 'application/json'
