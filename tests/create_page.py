@@ -17,7 +17,6 @@ from http import HTTPStatus
 from helpers.crud import CrudPage
 from tests.get_token import test_get_token
 from helpers.config import status_code, json_response, dict_response
-from helpers.config import schema
 from jsonschema import validate
 from utils.print_helpers import pretty_print
 
@@ -33,6 +32,7 @@ def test_create_post():
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     return responses[dict_response]['id']
+
 
 def test_validate_valid_token():
     test_get_token()
@@ -126,6 +126,8 @@ def test_valid_status_private():
 
 
 def test_validate_schema():
+    file = open('../helpers/schema-create.json', "r")
+    schema = json.loads(file.read())
     payload = json.dumps({
         "title": "Schema test",
         "status": "publish",
