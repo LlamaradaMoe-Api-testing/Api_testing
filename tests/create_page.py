@@ -16,9 +16,16 @@ import json
 from http import HTTPStatus
 from helpers.crud import CrudPage
 from tests.get_token import test_get_token
-from helpers.config import status_code, json_response, dict_response
 from jsonschema import validate
 from utils.print_helpers import pretty_print
+from utils.dotenv_manager import dotenv_loader
+import os
+
+
+dotenv_loader()
+status_code: int = int(os.environ.get('status_code'))
+json_response: int = int(os.environ.get('json_response'))
+dict_response: int = int(os.environ.get('dict_response'))
 
 
 # Happy path
@@ -29,7 +36,7 @@ def test_create_post():
       "content": "test for validate the status response"
     })
     responses = CrudPage().post(payload)
-    print(responses[json_response])
+    pretty_print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     return responses[dict_response]['id']
 

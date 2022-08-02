@@ -16,8 +16,16 @@ from http import HTTPStatus
 from helpers.crud import CrudPage
 from tests.get_token import test_get_token
 from utils.print_helpers import pretty_print
-from helpers.config import AUTHORIZATION, status_code, json_response, dict_response
 from helpers.payload_schema import body, schema_draft
+from utils.dotenv_manager import dotenv_loader
+import os
+
+
+dotenv_loader()
+status_code: int = int(os.environ.get('status_code'))
+json_response: int = int(os.environ.get('json_response'))
+dict_response: int = int(os.environ.get('dict_response'))
+
 
 #happy path
 def test_get_all():
