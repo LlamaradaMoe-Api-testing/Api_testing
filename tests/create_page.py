@@ -203,6 +203,7 @@ def test_valid_null_title():
     assert_that(dic_title['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
 @pytest.mark.sanity
 def test_valid_null_content():
     test_get_token()
@@ -218,6 +219,7 @@ def test_valid_null_content():
     assert_that(dic_content['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
 @pytest.mark.sanity
 def test_valid_void_content():
     test_get_token()
@@ -234,6 +236,7 @@ def test_valid_void_content():
     assert_that(dic_content['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
 @pytest.mark.sanity
 def test_valid_no_content():
     test_get_token()
@@ -250,6 +253,7 @@ def test_valid_no_content():
     assert_that(dic_content['raw']).is_not_empty()
 
 
+@pytest.mark.regression
 @pytest.mark.sanity
 def test_invalid_status():
     status = 'not a status'
@@ -265,6 +269,7 @@ def test_invalid_status():
     assert_that(response_content['data']['status']).is_equal_to(400)
 
 
+@pytest.mark.regression
 @pytest.mark.sanity
 def test_void_status():
     payload = json.dumps({
@@ -279,6 +284,7 @@ def test_void_status():
     assert_that(response_content['data']['status']).is_equal_to(400)
 
 
+@pytest.mark.regression
 @pytest.mark.sanity
 def test_null_status():
     payload = json.dumps({
@@ -292,6 +298,7 @@ def test_null_status():
     assert_that(response_content['status']).is_equal_to('draft')
 
 
+@pytest.mark.regression
 @pytest.mark.security
 def test_invalid_token():
     invalid_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
