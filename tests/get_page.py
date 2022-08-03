@@ -14,7 +14,7 @@
 from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
-from tests.get_token import test_get_token
+from helpers.get_token import get_token
 from utils.print_helpers import pretty_print
 from helpers.payload_schema import body, schema_draft
 from utils.dotenv_manager import dotenv_loader
@@ -29,10 +29,12 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 #happy path
 @pytest.mark.acceptance
+# Happy path
 def test_get_all():
     responses = CrudPage().get_all()
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     pretty_print(responses[json_response])
+
 
 @pytest.mark.acceptance
 def test_get_page_id_publish():
@@ -73,6 +75,7 @@ def test_get_page_id_draft():
     assert_that(dict['status']).is_equal_to('draft')
     pretty_print(json)
 
+
 @pytest.mark.acceptance
 def test_get_media_id():
     id = 16
@@ -88,6 +91,7 @@ def test_get_id_notexist():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
 
+
 @pytest.mark.negative
 def test_get_page_id_is_not_publish():
     requests = CrudPage().post(schema_draft())
@@ -99,6 +103,7 @@ def test_get_page_id_is_not_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_not_equal_to('publish')
     pretty_print(json)
+
 
 @pytest.mark.negative
 def test_get_page_id_is_not_publish():

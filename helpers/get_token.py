@@ -15,7 +15,7 @@
 from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
-from utils.dotenv_manager import dotenv_loader
+from utils.dotenv_manager import dotenv_loader, dotenv_reload
 import os
 
 
@@ -28,7 +28,7 @@ json_response: int = int(os.environ.get('json_response'))
 dict_response: int = int(os.environ.get('dict_response'))
 
 
-def test_get_token():
+def get_token():
     payload = {'username': USERNAME, 'password': PASSWORD}
     responses = CrudPage().get_token(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
@@ -46,3 +46,4 @@ def test_get_token():
     new_file = open(filename, "w")
     new_file.write(replacement)
     new_file.close()
+    dotenv_reload()
