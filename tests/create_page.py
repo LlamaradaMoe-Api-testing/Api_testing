@@ -15,7 +15,7 @@ from assertpy.assertpy import assert_that
 import json
 from http import HTTPStatus
 from helpers.crud import CrudPage
-from tests.get_token import test_get_token
+from helpers.get_token import get_token
 from jsonschema import validate
 from utils.print_helpers import pretty_print
 from utils.dotenv_manager import dotenv_loader
@@ -30,6 +30,7 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 # Happy path
 def test_create_post():
+    get_token()
     payload = json.dumps({
       "title": "Validate status response!",
       "status": "publish",
@@ -42,7 +43,7 @@ def test_create_post():
 
 
 def test_validate_valid_token():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "title": "Valid token!",
         "status": "publish",
@@ -54,7 +55,7 @@ def test_validate_valid_token():
 
 
 def test_valid_title():
-    test_get_token()
+    get_token()
     title = "Valid title"
     payload = json.dumps({
         "title": title,
@@ -71,7 +72,7 @@ def test_valid_title():
 
 
 def test_valid_content():
-    test_get_token()
+    get_token()
     content = "test for validate the content"
     payload = json.dumps({
         "title": "Validate the content",
@@ -88,7 +89,7 @@ def test_valid_content():
 
 
 def test_valid_status_publish():
-    test_get_token()
+    get_token()
     status = "publish"
     payload = json.dumps({
         "title": "Status publish!",
@@ -103,7 +104,7 @@ def test_valid_status_publish():
 
 
 def test_valid_status_draft():
-    test_get_token()
+    get_token()
     status = "draft"
     payload = json.dumps({
         "title": "Status draft",
@@ -118,7 +119,7 @@ def test_valid_status_draft():
 
 
 def test_valid_status_private():
-    test_get_token()
+    get_token()
     status = "private"
     payload = json.dumps({
         "title": "status private",
@@ -148,7 +149,7 @@ def test_validate_schema():
 
 # Negative tests
 def test_valid_no_title():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "title": "",
         "status": "publish",
@@ -163,7 +164,7 @@ def test_valid_no_title():
 
 
 def test_valid_void_title():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "title": "  ",
         "status": "publish",
@@ -178,7 +179,7 @@ def test_valid_void_title():
 
 
 def test_valid_null_title():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "status": "publish",
         "content": "Test for validate null title"
@@ -192,7 +193,7 @@ def test_valid_null_title():
 
 
 def test_valid_null_content():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "title": "null content",
         "status": "publish",
@@ -206,7 +207,7 @@ def test_valid_null_content():
 
 
 def test_valid_void_content():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "title": "void content",
         "status": "publish",
@@ -221,7 +222,7 @@ def test_valid_void_content():
 
 
 def test_valid_no_content():
-    test_get_token()
+    get_token()
     payload = json.dumps({
         "title": "void content",
         "status": "publish",

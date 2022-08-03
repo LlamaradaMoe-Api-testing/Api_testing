@@ -12,53 +12,48 @@
 #
 
 from utils.api_requests import Api_Requests
-#from helpers.config import BASE_URI, AUTHORIZATION
 import os
-from utils.dotenv_manager import dotenv_loader
-
-
-dotenv_loader()
-BASE_URI = os.environ.get('BASE_URI')
-AUTHORIZATION = os.environ.get('AUTHORIZATION')
 
 
 class CrudPage:
     def __init__(self):
+        self.base_uri = os.environ.get('BASE_URI')
+        self.authorization = os.environ.get('AUTHORIZATION')
         self.headers: dict = {
-                'Authorization': AUTHORIZATION,
+                'Authorization': self.authorization,
                 'Content-Type': 'application/json'
         }
 
     def put(self, id, payload):
-        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('put'))
         return responses
 
     def post(self, payload):
-        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
+        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/', self.headers, payload)
         responses = response.get_responses(response.get_request('post'))
         return responses
 
     def delete(self, id, payload):
-        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('delete'))
         return responses
 
     def get_all(self):
         payload = {}
-        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/', self.headers, payload)
+        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/', self.headers, payload)
         responses = response.get_responses(response.get_request('get'))
         return responses
 
     def get_by_id(self, id):
         payload = {}
-        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', self.headers, payload)
         responses = response.get_responses(response.get_request('get'))
         return responses
 
     def get_token(self, payload):
         headers = {}
-        response = Api_Requests(f'{BASE_URI}/api/v1/token', headers, payload)
+        response = Api_Requests(f'{self.base_uri}/api/v1/token', headers, payload)
         responses = response.get_responses(response.get_request('post'))
         return responses
 
@@ -67,7 +62,7 @@ class CrudPage:
             'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzd",
             'Content-Type': 'application/json'
         }
-        response = Api_Requests(f'{BASE_URI}/wp/v2/pages/{id}', headers, payload)
+        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', headers, payload)
         responses = response.get_responses(response.get_request('delete'))
         return responses
 

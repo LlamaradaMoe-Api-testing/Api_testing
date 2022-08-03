@@ -16,3 +16,7 @@ from dotenv import load_dotenv
 
 def dotenv_loader():
     return load_dotenv()
+
+
+def dotenv_reload():
+    return load_dotenv(override=True)
