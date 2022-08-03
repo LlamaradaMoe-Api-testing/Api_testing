@@ -73,13 +73,6 @@ def test_get_page_id_draft():
     pretty_print(json)
 
 
-def test_get_media_id():
-    id = 16
-    responses = CrudPage().get_media_by_id(id)
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    pretty_print(responses[json_response])
-
-
 # Negative Test
 def test_get_id_notexist():
     id = 'cuare'
