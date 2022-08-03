@@ -12,7 +12,14 @@
 #
 
 from utils.api_requests import Api_Requests
-from helpers.config import BASE_URI, AUTHORIZATION
+#from helpers.config import BASE_URI, AUTHORIZATION
+import os
+from utils.dotenv_manager import dotenv_loader
+
+
+dotenv_loader()
+BASE_URI = os.environ.get('BASE_URI')
+AUTHORIZATION = os.environ.get('AUTHORIZATION')
 
 
 class CrudPage:

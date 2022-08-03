@@ -15,8 +15,15 @@ from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
 from utils.print_helpers import pretty_print
-from helpers.config import status_code, json_response, dict_response
 from helpers.payload_schema import body
+from utils.dotenv_manager import dotenv_loader
+import os
+
+
+dotenv_loader()
+status_code: int = int(os.environ.get('status_code'))
+json_response: int = int(os.environ.get('json_response'))
+dict_response: int = int(os.environ.get('dict_response'))
 
 
 # Happy path
