@@ -20,6 +20,7 @@ from jsonschema import validate
 from utils.print_helpers import pretty_print
 from utils.dotenv_manager import dotenv_loader
 import os
+import pytest
 
 
 dotenv_loader()
@@ -29,6 +30,7 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 
 # Happy path
+@pytest.mark.acceptance
 def test_create_post():
     get_token()
     payload = json.dumps({
@@ -42,6 +44,7 @@ def test_create_post():
     return responses[dict_response]['id']
 
 
+@pytest.mark.acceptance
 def test_validate_valid_token():
     get_token()
     payload = json.dumps({
@@ -54,6 +57,7 @@ def test_validate_valid_token():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
 
 
+@pytest.mark.acceptance
 def test_valid_title():
     get_token()
     title = "Valid title"
@@ -71,6 +75,7 @@ def test_valid_title():
     assert_that(response_title['raw']).is_equal_to(title)
 
 
+@pytest.mark.acceptance
 def test_valid_content():
     get_token()
     content = "test for validate the content"
@@ -88,6 +93,7 @@ def test_valid_content():
     assert_that(resp_content['raw']).is_equal_to(content)
 
 
+@pytest.mark.acceptance
 def test_valid_status_publish():
     get_token()
     status = "publish"
@@ -103,6 +109,7 @@ def test_valid_status_publish():
     assert_that(response_content['status']).is_equal_to(status)
 
 
+@pytest.mark.acceptance
 def test_valid_status_draft():
     get_token()
     status = "draft"
@@ -118,6 +125,7 @@ def test_valid_status_draft():
     assert_that(response_content['status']).is_equal_to(status)
 
 
+@pytest.mark.acceptance
 def test_valid_status_private():
     get_token()
     status = "private"
@@ -133,6 +141,7 @@ def test_valid_status_private():
     assert_that(response_content['status']).is_equal_to(status)
 
 
+@pytest.mark.endToend
 def test_validate_schema():
     file = open('../helpers/schema-create.json', "r")
     schema = json.loads(file.read())
@@ -148,6 +157,7 @@ def test_validate_schema():
 
 
 # Negative tests
+@pytest.mark.regression
 def test_valid_no_title():
     get_token()
     payload = json.dumps({
@@ -163,6 +173,7 @@ def test_valid_no_title():
     assert_that(dic_title['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
 def test_valid_void_title():
     get_token()
     payload = json.dumps({
@@ -178,6 +189,7 @@ def test_valid_void_title():
     assert_that(dic_title['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
 def test_valid_null_title():
     get_token()
     payload = json.dumps({
@@ -192,6 +204,8 @@ def test_valid_null_title():
     assert_that(dic_title['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
+@pytest.mark.sanity
 def test_valid_null_content():
     get_token()
     payload = json.dumps({
@@ -206,6 +220,8 @@ def test_valid_null_content():
     assert_that(dic_content['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
+@pytest.mark.sanity
 def test_valid_void_content():
     get_token()
     payload = json.dumps({
@@ -221,6 +237,8 @@ def test_valid_void_content():
     assert_that(dic_content['raw']).is_equal_to('')
 
 
+@pytest.mark.regression
+@pytest.mark.sanity
 def test_valid_no_content():
     get_token()
     payload = json.dumps({
@@ -236,6 +254,8 @@ def test_valid_no_content():
     assert_that(dic_content['raw']).is_not_empty()
 
 
+@pytest.mark.regression
+@pytest.mark.sanity
 def test_invalid_status():
     status = 'not a status'
     payload = json.dumps({
@@ -250,6 +270,8 @@ def test_invalid_status():
     assert_that(response_content['data']['status']).is_equal_to(400)
 
 
+@pytest.mark.regression
+@pytest.mark.sanity
 def test_void_status():
     payload = json.dumps({
         "title": "void content",
@@ -263,6 +285,8 @@ def test_void_status():
     assert_that(response_content['data']['status']).is_equal_to(400)
 
 
+@pytest.mark.regression
+@pytest.mark.sanity
 def test_null_status():
     payload = json.dumps({
         "title": "void content",
@@ -275,6 +299,8 @@ def test_null_status():
     assert_that(response_content['status']).is_equal_to('draft')
 
 
+@pytest.mark.regression
+@pytest.mark.security
 def test_invalid_token():
     invalid_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
     payload = json.dumps({

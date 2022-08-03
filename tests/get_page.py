@@ -19,7 +19,7 @@ from utils.print_helpers import pretty_print
 from helpers.payload_schema import body, schema_draft
 from utils.dotenv_manager import dotenv_loader
 import os
-
+import pytest
 
 dotenv_loader()
 status_code: int = int(os.environ.get('status_code'))
@@ -27,6 +27,8 @@ json_response: int = int(os.environ.get('json_response'))
 dict_response: int = int(os.environ.get('dict_response'))
 
 
+#happy path
+@pytest.mark.acceptance
 # Happy path
 def test_get_all():
     responses = CrudPage().get_all()
@@ -34,6 +36,7 @@ def test_get_all():
     pretty_print(responses[json_response])
 
 
+@pytest.mark.acceptance
 def test_get_page_id_publish():
     requests = CrudPage().post(body())
     title = requests [dict_response]['title']['rendered']
@@ -45,7 +48,7 @@ def test_get_page_id_publish():
     assert_that(dict['status']).is_equal_to('publish')
     pretty_print(json)
 
-
+@pytest.mark.acceptance
 def test_get_page_id_trash():
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
@@ -60,7 +63,7 @@ def test_get_page_id_trash():
     assert_that(dict['status']).is_equal_to('trash')
     pretty_print(json)
 
-
+@pytest.mark.acceptance
 def test_get_page_id_draft():
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
@@ -73,7 +76,15 @@ def test_get_page_id_draft():
     pretty_print(json)
 
 
-# Negative Test
+@pytest.mark.acceptance
+def test_get_media_id():
+    id = 16
+    responses = CrudPage().get_media_by_id(id)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    pretty_print(responses[json_response])
+
+#Negative Test
+@pytest.mark.negative
 def test_get_id_notexist():
     id = 'cuare'
     responses = CrudPage().get_by_id(id)
@@ -81,6 +92,7 @@ def test_get_id_notexist():
     pretty_print(responses[json_response])
 
 
+@pytest.mark.negative
 def test_get_page_id_is_not_publish():
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
@@ -93,6 +105,7 @@ def test_get_page_id_is_not_publish():
     pretty_print(json)
 
 
+@pytest.mark.negative
 def test_get_page_id_is_not_publish():
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
