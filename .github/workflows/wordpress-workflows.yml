@@ -3,9 +3,13 @@ name: Build wordpress
 on: [push]
 env:
   BASE_URI: ${{ secrets.BASE_URI }}
-  USERNAME: ${{ secrets.USERNAME }}
+  USER_NAME: ${{ secrets.USERNAME }}
   PASSWORD: ${{ secrets.PASSWORD }}
-  AUTHORIZATION: ${{ secrets.AUTHORIZATION }}
+  AUTHORIZATION: Bearer
+  status_code:  1
+  dict_response: 0
+  json_response: 2
+  #AUTHORIZATION1: python3 get_token.py
 
 jobs:
   build:
@@ -22,19 +26,24 @@ jobs:
 
       - name: Set config variables
         run: |
-            python3 filename = "helpers/config.py"
-            python3 text = open(filename).read()
-            python3 open(filename, "w+").write(text.replace(BASE_URI, $BASE_URI)
-            python3 open(filename, "w+").write(text.replace(USERNAME, $USERNAME)
-            python3 open(filename, "w+").write(text.replace(PASSWORD, $PASSWORD)
-            python3 open(filename, "w+").write(text.replace(AUTHORIZATION, $AUTHORIZATION)            
+          touch .env
+          echo BASE_URI=$BASE_URI >> .env
+          echo USER_NAME=$USER_NAME >> .env
+          echo PASSWORD=$PASSWORD >> .env
+          echo AUTHORIZATION=$AUTHORIZATION >> .env
+          echo status_code=$status_code >> .env
+          echo dict_response=$dict_response >> .env 
+          echo json_response=$json_response >> .env 
+          pwd
+          cat .env 
+          python3 get_token.py
 
       - name: Run pytest
-        run: |
-            python3 pytest create_page.py            
-            python3 pytest get_page.py
-            python3 pytest put_update_page.py
-            python3 pytest delete_page.py
+        run: |          
+          python3 pytest create_page.py            
+          python3 pytest get_page.py
+          python3 pytest put_update_page.py
+          python3 pytest delete_page.py
 
       - name: Coverage
         run: coverage run -m pytest --cov
