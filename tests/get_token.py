@@ -30,8 +30,6 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 def test_get_token():
     payload = {'username': USERNAME, 'password': PASSWORD}
-    print(USERNAME)
-    print(PASSWORD)
     responses = CrudPage().get_token(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     assert_that(responses[dict_response]['jwt_token']).is_not_empty()
