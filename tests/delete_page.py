@@ -27,6 +27,7 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 
 # Happy path
+@pytest.mark.smoke
 def test_delete():
     id = CrudPage().post(body())
     payload = {}
@@ -37,7 +38,7 @@ def test_delete():
     responses = CrudPage().delete(id[dict_response]['id'], payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.GONE)
 
-
+@pytest.mark.acceptance
 def test_deleted_with_send_payload():
     id = CrudPage().post(body())
     responses = CrudPage().delete(id[dict_response]['id'], body())
@@ -47,8 +48,18 @@ def test_deleted_with_send_payload():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.GONE)
     pretty_print(responses[json_response])
 
-
+@pytest.mark.black_box
+def test_validate_schema():
+    file = open('../helpers/schema-delete.json', "r")
+    schema = json.loads(file.read())
+    id = CrudPage().post(body())
+    payload = {}
+    responses = CrudPage().delete(id[dict_response]['id'], payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    schema_test = json.loads(responses[json_response])
+    validate(instance=schema_test, schema=schema)
 # Negative test
+@pytest.mark.negative
 def test_delete_notfound_id():
     id = 1
     payload = {}
@@ -56,7 +67,7 @@ def test_delete_notfound_id():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
 
-
+@pytest.mark.negative
 def test_delete_string_id_enter():
     id = "cuatro"
     payload = {}
@@ -64,7 +75,7 @@ def test_delete_string_id_enter():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
 
-
+@pytest.mark.blackbox
 def test_delete_incorrect_token():
     id = CrudPage().post(body())
     payload = {}
