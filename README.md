@@ -45,6 +45,19 @@ Steps Run Program
     The Domain page in the BASE_URI variable is the domain that you gonna use (localhost if use default)
     The wordpress-project in BASE_URI variable is the name of your project in wordpress
 
+Steps to create the reports
+
+    1. Install Allure [https://github.com/allure-framework/allure2]
+    2. Add the environmetn variable in the system []
+    3. Excecute the commands:
+        pytest --alluredir=allure-report/.
+        allure serve allure-report/.
+    NOTE: if You want to excecute just one type of tests you can use the commands the following way:
+        pytest -v -m <tag> --alluredir=allure-report/.
+        allure serve allure-report/.
+    reemplacing <tag> for one of the tags used in the test, this can be:
+        acceptance, smoke, negative, sanity, regressiion, security
+
 Author
     Amilcar Barriento
     Said Garnica
