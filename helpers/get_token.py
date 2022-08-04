@@ -16,6 +16,7 @@ from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
 from utils.dotenv_manager import dotenv_loader, dotenv_reload
+from utils.path_manager import PathManager
 import os
 
 
@@ -33,7 +34,8 @@ def get_token():
     responses = CrudPage().get_token(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     assert_that(responses[dict_response]['jwt_token']).is_not_empty()
-    filename = "../.env"
+    parent_path = PathManager().get_parent_path()
+    filename = os.path.join(parent_path, '.env')
     string = 'AUTHORIZATION'
     replacement = ""
     file = open(filename, "r")
