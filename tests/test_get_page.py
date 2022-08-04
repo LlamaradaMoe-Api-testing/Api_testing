@@ -1,5 +1,5 @@
 # 
-# get_page.py Copyright (c)
+# test_get_page.py Copyright (c)
 # 2643 Av  Melchor Perez de Olguin, Colquiri Sud, Cochabamba, Bolivia.
 # 1376 Av General Inofuentes esquina calle 20, La Paz, Bolivia.
 # All rights reserved.
@@ -75,13 +75,6 @@ def test_get_page_id_draft():
     assert_that(dict['status']).is_equal_to('draft')
     pretty_print(json)
 
-
-@pytest.mark.acceptance
-def test_get_media_id():
-    id = 16
-    responses = CrudPage().get_media_by_id(id)
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    pretty_print(responses[json_response])
 
 #Negative Test
 @pytest.mark.negative
