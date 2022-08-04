@@ -18,7 +18,9 @@ from utils.print_helpers import pretty_print
 from helpers.payload_schema import body
 from helpers.get_token import get_token
 from utils.dotenv_manager import dotenv_loader
+from jsonschema import validate
 import os
+import json
 import pytest
 
 
@@ -41,6 +43,7 @@ def test_delete():
     responses = CrudPage().delete(id[dict_response]['id'], payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.GONE)
 
+
 @pytest.mark.acceptance
 def test_deleted_with_send_payload():
     get_token()
@@ -53,6 +56,18 @@ def test_deleted_with_send_payload():
     pretty_print(responses[json_response])
 
 
+@pytest.mark.black_box
+def test_validate_schema():
+    file = open('../helpers/schema-delete.json', "r")
+    schema = json.loads(file.read())
+    id = CrudPage().post(body())
+    payload = {}
+    responses = CrudPage().delete(id[dict_response]['id'], payload)
+    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    schema_test = json.loads(responses[json_response])
+    validate(instance=schema_test, schema=schema)
+
+
 # Negative test
 @pytest.mark.negative
 def test_delete_notfound_id():
@@ -63,6 +78,7 @@ def test_delete_notfound_id():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
 
+
 @pytest.mark.negative
 def test_delete_string_id_enter():
     get_token()
@@ -71,6 +87,7 @@ def test_delete_string_id_enter():
     responses = CrudPage().delete(id, payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
+
 
 @pytest.mark.blackbox
 def test_delete_incorrect_token():
