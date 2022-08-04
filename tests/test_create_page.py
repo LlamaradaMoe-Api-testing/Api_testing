@@ -10,7 +10,7 @@
 # accordance with the terms of the license agreement you entered into
 # with Jalasoft.
 #
-
+import allure
 from assertpy.assertpy import assert_that
 import json
 from http import HTTPStatus
@@ -31,6 +31,8 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 # Happy path
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page")
 def test_create_post():
     get_token()
     payload = json.dumps({
@@ -45,6 +47,8 @@ def test_create_post():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page with a valid token")
 def test_validate_valid_token():
     get_token()
     payload = json.dumps({
@@ -58,6 +62,8 @@ def test_validate_valid_token():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page with a valid title")
 def test_valid_title():
     get_token()
     title = "Valid title"
@@ -76,6 +82,8 @@ def test_valid_title():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page with a valid content")
 def test_valid_content():
     get_token()
     content = "test for validate the content"
@@ -94,6 +102,8 @@ def test_valid_content():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page with status publish")
 def test_valid_status_publish():
     get_token()
     status = "publish"
@@ -110,6 +120,8 @@ def test_valid_status_publish():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page with status draft")
 def test_valid_status_draft():
     get_token()
     status = "draft"
@@ -126,6 +138,8 @@ def test_valid_status_draft():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test for create a page with status private")
 def test_valid_status_private():
     get_token()
     status = "private"
@@ -142,8 +156,10 @@ def test_valid_status_private():
 
 
 @pytest.mark.endToend
+@allure.suite("endToend")
+@allure.title("Test for validate the schema response at create a page")
 def test_validate_schema():
-    file = open('../helpers/schema-create.json', "r")
+    file = open('./helpers/schema-create.json', "r")
     schema = json.loads(file.read())
     payload = json.dumps({
         "title": "Schema test",
@@ -158,6 +174,8 @@ def test_validate_schema():
 
 # Negative tests
 @pytest.mark.regression
+@allure.suite("regression")
+@allure.title("Test for create a page without a title")
 def test_valid_no_title():
     get_token()
     payload = json.dumps({
@@ -174,6 +192,8 @@ def test_valid_no_title():
 
 
 @pytest.mark.regression
+@allure.suite("regression")
+@allure.title("Test for create a page with blank title")
 def test_valid_void_title():
     get_token()
     payload = json.dumps({
@@ -190,6 +210,8 @@ def test_valid_void_title():
 
 
 @pytest.mark.regression
+@allure.suite("regression")
+@allure.title("Test for create a page with null title")
 def test_valid_null_title():
     get_token()
     payload = json.dumps({
@@ -206,6 +228,9 @@ def test_valid_null_title():
 
 @pytest.mark.regression
 @pytest.mark.sanity
+@allure.suite("regression")
+@allure.suite("sanity")
+@allure.title("Test for create a page with null content")
 def test_valid_null_content():
     get_token()
     payload = json.dumps({
@@ -222,6 +247,9 @@ def test_valid_null_content():
 
 @pytest.mark.regression
 @pytest.mark.sanity
+@allure.suite("regression")
+@allure.suite("sanity")
+@allure.title("Test for create a page without content")
 def test_valid_void_content():
     get_token()
     payload = json.dumps({
@@ -239,6 +267,9 @@ def test_valid_void_content():
 
 @pytest.mark.regression
 @pytest.mark.sanity
+@allure.suite("regression")
+@allure.suite("sanity")
+@allure.title("Test for create a page with blank content")
 def test_valid_no_content():
     get_token()
     payload = json.dumps({
@@ -256,6 +287,9 @@ def test_valid_no_content():
 
 @pytest.mark.regression
 @pytest.mark.sanity
+@allure.suite("regression")
+@allure.suite("sanity")
+@allure.title("Test for create a page with invalid status")
 def test_invalid_status():
     status = 'not a status'
     payload = json.dumps({
@@ -272,6 +306,9 @@ def test_invalid_status():
 
 @pytest.mark.regression
 @pytest.mark.sanity
+@allure.suite("regression")
+@allure.suite("sanity")
+@allure.title("Test for create a page with void status")
 def test_void_status():
     payload = json.dumps({
         "title": "void content",
@@ -287,6 +324,9 @@ def test_void_status():
 
 @pytest.mark.regression
 @pytest.mark.sanity
+@allure.suite("regression")
+@allure.suite("sanity")
+@allure.title("Test for create a page with default status")
 def test_null_status():
     payload = json.dumps({
         "title": "void content",
@@ -301,6 +341,9 @@ def test_null_status():
 
 @pytest.mark.regression
 @pytest.mark.security
+@allure.suite("regression")
+@allure.suite("security")
+@allure.title("Test for create a page with invalid token")
 def test_invalid_token():
     invalid_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
     payload = json.dumps({

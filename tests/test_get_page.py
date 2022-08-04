@@ -20,6 +20,7 @@ from helpers.payload_schema import body, schema_draft
 from utils.dotenv_manager import dotenv_loader
 import os
 import pytest
+import allure
 
 dotenv_loader()
 status_code: int = int(os.environ.get('status_code'))
@@ -27,8 +28,10 @@ json_response: int = int(os.environ.get('json_response'))
 dict_response: int = int(os.environ.get('dict_response'))
 
 
-#happy path
+# happy path
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("test for validate if all the created pages are displayed correctly")
 # Happy path
 def test_get_all():
     responses = CrudPage().get_all()
@@ -37,9 +40,11 @@ def test_get_all():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("test for validate if a created page with status publish is displayed correctly")
 def test_get_page_id_publish():
     requests = CrudPage().post(body())
-    title = requests [dict_response]['title']['rendered']
+    title = requests[dict_response]['title']['rendered']
     responses = CrudPage().get_by_id(requests[dict_response]['id'])
     json = responses[json_response]
     dict = responses[dict_response]
@@ -48,7 +53,10 @@ def test_get_page_id_publish():
     assert_that(dict['status']).is_equal_to('publish')
     pretty_print(json)
 
+
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("test for validate if a created page with status trash is displayed correctly")
 def test_get_page_id_trash():
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
@@ -63,7 +71,10 @@ def test_get_page_id_trash():
     assert_that(dict['status']).is_equal_to('trash')
     pretty_print(json)
 
+
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("test for validate if a created page with status draft is displayed correctly")
 def test_get_page_id_draft():
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
@@ -76,8 +87,10 @@ def test_get_page_id_draft():
     pretty_print(json)
 
 
-#Negative Test
+# Negative Test
 @pytest.mark.negative
+@allure.suite("negative")
+@allure.title("test for validate if a created page that dont have id valid is not displayed")
 def test_get_id_notexist():
     id = 'cuare'
     responses = CrudPage().get_by_id(id)
@@ -86,6 +99,8 @@ def test_get_id_notexist():
 
 
 @pytest.mark.negative
+@allure.suite("negative")
+@allure.title("test for validate if a created page that dont have id valid is not displayed")
 def test_get_page_id_is_not_publish():
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
@@ -99,6 +114,8 @@ def test_get_page_id_is_not_publish():
 
 
 @pytest.mark.negative
+@allure.suite("negative")
+@allure.title("test for validate the status of page is not trash")
 def test_get_page_id_is_not_publish():
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']

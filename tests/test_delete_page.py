@@ -22,6 +22,8 @@ from jsonschema import validate
 import os
 import json
 import pytest
+import allure
+
 
 
 dotenv_loader()
@@ -32,6 +34,8 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 # Happy path
 @pytest.mark.smoke
+@allure.suite("smoke")
+@allure.title("Test to delete a page by id")
 def test_delete():
     get_token()
     id = CrudPage().post(body())
@@ -45,6 +49,8 @@ def test_delete():
 
 
 @pytest.mark.acceptance
+@allure.suite("acceptance")
+@allure.title("Test to delete a page by id sending a payload")
 def test_deleted_with_send_payload():
     get_token()
     id = CrudPage().post(body())
@@ -57,8 +63,10 @@ def test_deleted_with_send_payload():
 
 
 @pytest.mark.black_box
+@allure.suite("black_box")
+@allure.title("Test the result schema of delete a page by id")
 def test_validate_schema():
-    file = open('../helpers/schema-delete.json', "r")
+    file = open('./helpers/schema-delete.json', "r")
     schema = json.loads(file.read())
     id = CrudPage().post(body())
     payload = {}
@@ -70,6 +78,8 @@ def test_validate_schema():
 
 # Negative test
 @pytest.mark.negative
+@allure.suite("negative")
+@allure.title("Test to delete a page by not exist id")
 def test_delete_notfound_id():
     get_token()
     id = 1
@@ -80,6 +90,8 @@ def test_delete_notfound_id():
 
 
 @pytest.mark.negative
+@allure.suite("negative")
+@allure.title("Test to delete a page by an incorrected id")
 def test_delete_string_id_enter():
     get_token()
     id = "cuatro"
@@ -89,7 +101,9 @@ def test_delete_string_id_enter():
     pretty_print(responses[json_response])
 
 
-@pytest.mark.blackbox
+@pytest.mark.black_box
+@allure.suite("black_box")
+@allure.title("Test to delete a page by id with Unauthorized")
 def test_delete_incorrect_token():
     get_token()
     id = CrudPage().post(body())
