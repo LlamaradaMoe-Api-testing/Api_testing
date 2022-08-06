@@ -35,15 +35,12 @@ jobs:
           echo dict_response=$dict_response >> .env 
           echo json_response=$json_response >> .env 
           pwd
-          cat .env 
-          python3 get_token.py
+          cat .env           
 
       - name: Run pytest
         run: |          
-          python3 pytest create_page.py            
-          python3 pytest get_page.py
-          python3 pytest put_update_page.py
-          python3 pytest delete_page.py
+          python3 -m pytest tests/test_create_page.py         
+          python3 -m pytest tests/test_delete_page.py
 
       - name: Coverage
-        run: coverage run -m pytest --cov
+        run: python3 -m coverage run -m pytest
