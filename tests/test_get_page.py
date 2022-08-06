@@ -34,6 +34,7 @@ dict_response: int = int(os.environ.get('dict_response'))
 @allure.title("test for validate if all the created pages are displayed correctly")
 # Happy path
 def test_get_all():
+    get_token()
     responses = CrudPage().get_all()
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     pretty_print(responses[json_response])
@@ -43,6 +44,7 @@ def test_get_all():
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status publish is displayed correctly")
 def test_get_page_id_publish():
+    get_token()
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
     responses = CrudPage().get_by_id(requests[dict_response]['id'])
@@ -58,6 +60,7 @@ def test_get_page_id_publish():
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status trash is displayed correctly")
 def test_get_page_id_trash():
+    get_token()
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
     payload = {}
@@ -76,6 +79,7 @@ def test_get_page_id_trash():
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status draft is displayed correctly")
 def test_get_page_id_draft():
+    get_token()
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
     responses = CrudPage().get_by_id(requests[dict_response]['id'])
@@ -92,6 +96,7 @@ def test_get_page_id_draft():
 @allure.suite("negative")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
 def test_get_id_notexist():
+    get_token()
     id = 'cuare'
     responses = CrudPage().get_by_id(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
@@ -102,6 +107,7 @@ def test_get_id_notexist():
 @allure.suite("negative")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
 def test_get_page_id_is_not_publish():
+    get_token()
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
     responses = CrudPage().get_by_id(requests[dict_response]['id'])
@@ -117,6 +123,7 @@ def test_get_page_id_is_not_publish():
 @allure.suite("negative")
 @allure.title("test for validate the status of page is not trash")
 def test_get_page_id_is_not_publish():
+    get_token()
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
     responses = CrudPage().get_by_id(requests[dict_response]['id'])
