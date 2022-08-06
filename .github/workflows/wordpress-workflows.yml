@@ -41,6 +41,7 @@ jobs:
         run: |          
           python3 -m pytest tests/test_create_page.py         
           python3 -m pytest tests/test_delete_page.py
+          python3 -m pytest tests/test_get_page.py
 
       - name: Coverage
         run: python3 -m coverage run -m pytest
