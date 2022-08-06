@@ -41,7 +41,6 @@ jobs:
         run: |          
           python3 pytest test_create_page.py            
           python3 pytest test_get_page.py
-#          python3 pytest test_put_update_page.py
           python3 pytest test_delete_page.py
 
       - name: Coverage
