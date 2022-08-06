@@ -35,8 +35,7 @@ jobs:
           echo dict_response=$dict_response >> .env 
           echo json_response=$json_response >> .env 
           pwd
-          cat .env 
-          python3 get_token.py
+          cat .env           
 
       - name: Run pytest
         run: |          
