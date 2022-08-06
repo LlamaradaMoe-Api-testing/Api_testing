@@ -159,6 +159,7 @@ def test_valid_status_private():
 @allure.suite("endToend")
 @allure.title("Test for validate the schema response at create a page")
 def test_validate_schema():
+    get_token()
     file = open('./helpers/schema-create.json', "r")
     schema = json.loads(file.read())
     payload = json.dumps({
@@ -291,6 +292,7 @@ def test_valid_no_content():
 @allure.suite("sanity")
 @allure.title("Test for create a page with invalid status")
 def test_invalid_status():
+    get_token()
     status = 'not a status'
     payload = json.dumps({
         "title": "void content",
@@ -310,6 +312,7 @@ def test_invalid_status():
 @allure.suite("sanity")
 @allure.title("Test for create a page with void status")
 def test_void_status():
+    get_token()
     payload = json.dumps({
         "title": "void content",
         "status": "",
@@ -328,6 +331,7 @@ def test_void_status():
 @allure.suite("sanity")
 @allure.title("Test for create a page with default status")
 def test_null_status():
+    get_token()
     payload = json.dumps({
         "title": "void content",
         "content": "test for validate the void status"
