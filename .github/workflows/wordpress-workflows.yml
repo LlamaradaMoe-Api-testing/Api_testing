@@ -43,4 +43,4 @@ jobs:
           python3 -m pytest tests/test_delete_page.py
 
       - name: Coverage
-        run: coverage run -m pytest
+        run: python3 -m coverage run -m pytest
