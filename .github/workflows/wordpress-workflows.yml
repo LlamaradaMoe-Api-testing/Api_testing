@@ -39,10 +39,10 @@ jobs:
 
       - name: Run pytest
         run: |          
-          pytest create_page.py            
-          python3 -m pytest get_page.py
-          python3 pytest put_update_page.py
-          python3 pytest delete_page.py
+          python3 pytest test_create_page.py            
+          python3 pytest test_get_page.py
+#          python3 pytest test_put_update_page.py
+          python3 pytest test_delete_page.py
 
       - name: Coverage
         run: coverage run -m pytest --cov
