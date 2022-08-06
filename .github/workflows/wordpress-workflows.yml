@@ -39,8 +39,8 @@ jobs:
 
       - name: Run pytest
         run: |          
-          python3 pytest create_page.py            
-          python3 pytest get_page.py
+          pytest create_page.py            
+          python3 -m pytest get_page.py
           python3 pytest put_update_page.py
           python3 pytest delete_page.py
 
