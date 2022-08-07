@@ -49,5 +49,5 @@ jobs:
       - name: Generate Report
         run: |
           python3 -m pytest --alluredir=report/allure-report/.
-          allure serve ./report/allure-report/.
+          python3 -m allure serve ./report/allure-report/.
 
