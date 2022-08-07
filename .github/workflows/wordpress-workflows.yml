@@ -45,3 +45,8 @@ jobs:
 
       - name: Coverage
         run: python3 -m coverage run -m pytest
+
+      - name: Generate Report
+        run: |
+          python -m pytest --alluredir=report/allure-report/.
+          allure serve allure-report/.
