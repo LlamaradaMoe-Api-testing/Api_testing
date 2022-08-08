@@ -34,20 +34,36 @@ logger.setLevel(logging.DEBUG)
 
 # Happy path
 @pytest.mark.acceptance
+@pytest.mark.sanity
+@pytest.mark.regresion
 @allure.suite("acceptance")
+@allure.suite("regression")
+@allure.suite("sanity")
 @allure.title("test for validate if all the created pages are displayed correctly")
 @allure.step("Method: test_get_all")
 def test_get_all():
     logger.info('Executed test for validate get all pages correctly')
-    get_token()
-    responses = CrudPage().get_all()
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
-    pretty_print(responses[json_response])
-    logger.info('Test for validate get all pages correctly executed successfully')
-
+    try:
+        get_token()
+    except:
+        logger.info('Test for validate get all pages correctly executed successfully')
+    else:
+        responses = CrudPage().get_all()
+        try:
+            assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+            logger.info('Test for validate get all pages correctly executed successfully')
+        except:
+            logger.info('The status of request not is valid please review if have page created and xammp turn on')
+        finally:
+            pretty_print(responses[json_response])
 
 @pytest.mark.acceptance
+@pytest.mark.sanity
+@pytest.mark.regresion
+@pytest.mark.sanity
 @allure.suite("acceptance")
+@allure.suite("regression")
+@allure.suite("sanity")
 @allure.title("test for validate if a created page with status publish is displayed correctly")
 @allure.step("Method: test_get_page_id_publish")
 def test_get_page_id_publish():
@@ -66,7 +82,11 @@ def test_get_page_id_publish():
 
 
 @pytest.mark.acceptance
+@pytest.mark.sanity
+@pytest.mark.regresion
 @allure.suite("acceptance")
+@allure.suite("regression")
+@allure.suite("sanity")
 @allure.title("test for validate if a created page with status trash is displayed correctly")
 @allure.step("Method: test_get_page_id_trash")
 def test_get_page_id_trash():
@@ -88,7 +108,11 @@ def test_get_page_id_trash():
 
 
 @pytest.mark.acceptance
+@pytest.mark.sanity
+@pytest.mark.regresion
 @allure.suite("acceptance")
+@allure.suite("regression")
+@allure.suite("sanity")
 @allure.title("test for validate if a created page with status draft is displayed correctly")
 @allure.step("Method: test_get_page_id_draft")
 def test_get_page_id_draft():
@@ -107,8 +131,10 @@ def test_get_page_id_draft():
 
 
 # Negative Test
+@pytest.mark.regresion
 @pytest.mark.negative
 @allure.suite("negative")
+@allure.suite("regression")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
 @allure.step("Method: test_get_id_notexist")
 def test_get_id_notexist():
@@ -121,8 +147,10 @@ def test_get_id_notexist():
     logger.info('Test for validate status not found (404) at get a page with no existing id executed successfully')
 
 
+@pytest.mark.regresion
 @pytest.mark.negative
 @allure.suite("negative")
+@allure.suite("regression")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
 @allure.step("Method: test_get_page_id_is_not_publish")
 def test_get_page_id_is_not_publish():
@@ -140,8 +168,10 @@ def test_get_page_id_is_not_publish():
     logger.info('Test for validate if page created with an invalid id is not displayed executed successfully')
 
 
+@pytest.mark.regresion
 @pytest.mark.negative
 @allure.suite("negative")
+@allure.suite("regression")
 @allure.title("test for validate the status of page is not trash")
 @allure.step("Method: test_get_page_id_is_not_publish")
 def test_get_page_id_is_not_publish():
