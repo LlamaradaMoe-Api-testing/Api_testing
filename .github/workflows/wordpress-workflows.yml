@@ -55,7 +55,8 @@ jobs:
           python3 -m pytest -v -m sanity --alluredir=report/sanity/.
           python3 -m pytest -v -m security --alluredir=report/security/.
           python3 -m pytest -v -m smoke --alluredir=report/smoke/.
+          python3 -m pytest -v -m negative --alluredir=report/negative/.
           python3 -m pytest -v -m black_box --alluredir=report/black_box/.
-          python3 -m pytest -v -m negative --alluredir=report/negative/.        
+                
           
 

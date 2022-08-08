@@ -62,8 +62,8 @@ def test_deleted_with_send_payload():
     pretty_print(responses[json_response])
 
 
-@pytest.mark.black_box
-@allure.suite("black_box")
+@pytest.mark.endToend
+@allure.suite("endToend")
 @allure.title("Test the result schema of delete a page by id")
 def test_validate_schema():
     file = open('./helpers/schema-delete.json', "r")
