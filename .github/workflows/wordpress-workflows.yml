@@ -47,7 +47,15 @@ jobs:
         run: python3 -m coverage run -m pytest
 
       - name: Generate Report
-        run: |
+        run: |          
           python3 -m pytest --alluredir=report/allure-report/.
-          allure serve actions-runner/_work/Api_testing/Api_testing/report/allure-report/.
+          python3 -m pytest -v -m acceptance --alluredir=report/allure-report/acceptance/.
+          python3 -m pytest -v -m endToend --alluredir=report/allure-report/endToend/.
+          python3 -m pytest -v -m regression --alluredir=report/allure-report/regression/.
+          python3 -m pytest -v -m sanity --alluredir=report/allure-report/sanity/.
+          python3 -m pytest -v -m security --alluredir=report/allure-report/security/.
+          python3 -m pytest -v -m smoke --alluredir=report/allure-report/smoke/.
+          python3 -m pytest -v -m black_box --alluredir=report/allure-report/black_box/.
+          python3 -m pytest -v -m negative --alluredir=report/allure-report/negative/.        
+          
 
