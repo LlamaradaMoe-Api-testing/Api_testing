@@ -14,6 +14,10 @@
 from utils.api_requests import Api_Requests
 import os
 import allure
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 
 class CrudPage:
@@ -30,11 +34,19 @@ class CrudPage:
         responses = response.get_responses(response.get_request('put'))
         return responses
 
+    # def post(self, payload):
+    #     uri = f'{self.base_uri}/wp/v2/pages/'
+    #     allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
+    #     response = Api_Requests(uri, self.headers, payload)
+    #     responses = response.get_responses(response.get_request('post'))
+    #     allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
+    #     return responses
+
     def post(self, payload):
         uri = f'{self.base_uri}/wp/v2/pages/'
         allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
         response = Api_Requests(uri, self.headers, payload)
-        responses = response.get_responses(response.get_request('post'))
+        responses = response.make_request('post')
         allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
@@ -42,7 +54,8 @@ class CrudPage:
         uri = f'{self.base_uri}/wp/v2/pages/{id}'
         allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
         response = Api_Requests(uri, self.headers, payload)
-        responses = response.get_responses(response.get_request('delete'))
+        responses = response.make_request('delete')
+        #responses = response.get_responses(response.get_request('delete'))
         allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
@@ -51,7 +64,8 @@ class CrudPage:
         allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
         payload = {}
         response = Api_Requests(uri, self.headers, payload)
-        responses = response.get_responses(response.get_request('get'))
+        responses = response.make_request('get')
+        #responses = response.get_responses(response.get_request('get'))
         allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
@@ -60,14 +74,16 @@ class CrudPage:
         allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
         payload = {}
         response = Api_Requests(uri, self.headers, payload)
-        responses = response.get_responses(response.get_request('get'))
+        responses = response.make_request('get')
+        #responses = response.get_responses(response.get_request('get'))
         allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
     def get_token(self, payload):
         headers = {}
         response = Api_Requests(f'{self.base_uri}/api/v1/token', headers, payload)
-        responses = response.get_responses(response.get_request('post'))
+        responses = response.make_request('post')
+        #responses = response.get_responses(response.get_request('post'))
         return responses
 
     def delete_not_token(self, id, payload,token='sasdadasdasd'):
@@ -76,7 +92,8 @@ class CrudPage:
             'Content-Type': 'application/json'
         }
         response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', headers, payload)
-        responses = response.get_responses(response.get_request('delete'))
+        responses = response.make_request('delete')
+        # responses = response.get_responses(response.get_request('delete'))
         return responses
 
     def post_with_token(self, payload, token):

@@ -18,6 +18,7 @@ from helpers.crud import CrudPage
 from utils.dotenv_manager import dotenv_loader, dotenv_reload
 from utils.path_manager import PathManager
 import os
+import logging
 
 
 dotenv_loader()
@@ -28,8 +29,12 @@ status_code: int = int(os.environ.get('status_code'))
 json_response: int = int(os.environ.get('json_response'))
 dict_response: int = int(os.environ.get('dict_response'))
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
 
 def get_token():
+    logger.debug('Attempt to get token')
     payload = {'username': USERNAME, 'password': PASSWORD}
     responses = CrudPage().get_token(payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
@@ -49,3 +54,4 @@ def get_token():
     new_file.write(replacement)
     new_file.close()
     dotenv_reload()
+    logger.debug('Token obtained')

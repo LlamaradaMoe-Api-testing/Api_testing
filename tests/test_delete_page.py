@@ -85,6 +85,7 @@ def test_validate_schema():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     schema_test = json.loads(responses[json_response])
     validate(instance=schema_test, schema=schema)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate the response schema of delete a page by id executed successfully')
 
 
@@ -101,6 +102,7 @@ def test_delete_notfound_id():
     responses = CrudPage().delete(id, payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate not found (404) response at delete page with invalid id executed successfully')
 
 
@@ -116,6 +118,7 @@ def test_delete_string_id_enter():
     responses = CrudPage().delete(id, payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate not found (404) response at delete page with incorrect id executed successfully')
 
 
@@ -133,4 +136,5 @@ def test_delete_incorrect_token():
     pretty_print(responses[json_response])
     responses = CrudPage().delete(id[dict_response]['id'], payload)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate unauthorized (403) response at delete with invalid token executed successfully')

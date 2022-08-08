@@ -43,6 +43,7 @@ def test_get_all():
     responses = CrudPage().get_all()
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     pretty_print(responses[json_response])
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate get all pages correctly executed successfully')
 
 
@@ -62,6 +63,7 @@ def test_get_page_id_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_equal_to('publish')
     pretty_print(json)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for get a page by id executed successfully')
 
 
@@ -84,6 +86,7 @@ def test_get_page_id_trash():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_equal_to('trash')
     pretty_print(json)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for get a page created with status "trash" executed successfully')
 
 
@@ -103,6 +106,7 @@ def test_get_page_id_draft():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_equal_to('draft')
     pretty_print(json)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for get a page created with status "draft" executed successfully')
 
 
@@ -118,6 +122,7 @@ def test_get_id_notexist():
     responses = CrudPage().get_by_id(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate status not found (404) at get a page with no existing id executed successfully')
 
 
@@ -137,6 +142,7 @@ def test_get_page_id_is_not_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_not_equal_to('publish')
     pretty_print(json)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate if page created with an invalid id is not displayed executed successfully')
 
 
@@ -156,4 +162,5 @@ def test_get_page_id_is_not_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_not_equal_to('trash')
     pretty_print(json)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for get pages with validate the status not trash executed successfully')

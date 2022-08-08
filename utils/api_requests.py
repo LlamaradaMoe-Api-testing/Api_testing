@@ -13,6 +13,10 @@
 
 import requests
 import json
+import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 
 class Api_Requests:
@@ -20,12 +24,12 @@ class Api_Requests:
         self.url: str = url
         self.headers: dict = headers
         self.payload: dict = payload
-        self.request_dic: dict = {
-            'put': requests.put(self.url, headers=self.headers, data=self.payload),
-            'get': requests.get(self.url, headers=self.headers, data=self.payload),
-            'post': requests.post(self.url, headers=self.headers, data=self.payload),
-            'delete': requests.delete(self.url, headers=self.headers, data=self.payload)
-        }
+        # self.request_dic: dict = {
+        #     'put': requests.put(self.url, headers=self.headers, data=self.payload),
+        #     'get': requests.get(self.url, headers=self.headers, data=self.payload),
+        #     'post': requests.post(self.url, headers=self.headers, data=self.payload),
+        #     'delete': requests.delete(self.url, headers=self.headers, data=self.payload)
+        # }
 
     def get_request(self, method):
         return self.request_dic.get(method)
@@ -35,6 +39,22 @@ class Api_Requests:
         text = response.text
         try:
             dict_response = response.json()
+        except Exception as e:
+            dict_response = {}
+        json_response = json.dumps(dict_response, indent=2)
+        return dict_response, status_code, json_response
+
+    def make_request(self, method):
+        logger.debug('Generating the request')
+        if method == 'get':
+            api_request = requests.get(self.url, headers=self.headers, data=self.payload)
+        if method == 'post':
+            api_request = requests.post(self.url, headers=self.headers, data=self.payload)
+        if method == 'delete':
+            api_request = requests.delete(self.url, headers=self.headers, data=self.payload)
+        status_code = api_request.status_code
+        try:
+            dict_response = api_request.json()
         except Exception as e:
             dict_response = {}
         json_response = json.dumps(dict_response, indent=2)

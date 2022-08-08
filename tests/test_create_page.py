@@ -31,6 +31,8 @@ dict_response: int = int(os.environ.get('dict_response'))
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
+# logger = logging.getLogger()
+# logger.setLevel(logging.INFO)
 
 
 # Happy path
@@ -49,6 +51,7 @@ def test_create_post():
     responses = CrudPage().post(payload)
     pretty_print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page executed successfully')
     return responses[dict_response]['id']
 
@@ -68,6 +71,7 @@ def test_validate_valid_token():
     responses = CrudPage().post(payload)
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for for create a page using a valid token executed successfully')
 
 
@@ -91,6 +95,7 @@ def test_valid_title():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['title']).is_not_empty()
     assert_that(response_title['raw']).is_equal_to(title)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page using a valid title executed successfully')
 
 
@@ -114,6 +119,7 @@ def test_valid_content():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['content']).is_not_empty()
     assert_that(resp_content['raw']).is_equal_to(content)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page using a valid content executed successfully')
 
 
@@ -135,6 +141,7 @@ def test_valid_status_publish():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to(status)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page using the status "publish" executed successfully')
 
 
@@ -156,6 +163,7 @@ def test_valid_status_draft():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to(status)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page using the status "draft" executed successfully')
 
 
@@ -177,6 +185,7 @@ def test_valid_status_private():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to(status)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page using the status "private" executed successfully')
 
 
@@ -198,6 +207,7 @@ def test_validate_schema():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     schema_test = json.loads(responses[json_response])
     validate(instance=schema_test, schema=schema)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for validate the response schema executed successfully')
 
 
@@ -220,6 +230,7 @@ def test_valid_no_title():
     dic_title = response_content['title']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_title['raw']).is_equal_to('')
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page without a title executed successfully')
 
 
@@ -241,6 +252,7 @@ def test_valid_void_title():
     dic_title = response_content['title']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_title['raw']).is_equal_to('')
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page without a title executed successfully')
 
 
@@ -261,6 +273,7 @@ def test_valid_null_title():
     dic_title = response_content['title']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_title['raw']).is_equal_to('')
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page with null a title executed successfully')
 
 
@@ -283,6 +296,7 @@ def test_valid_null_content():
     dic_content = response_content['content']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_content['raw']).is_equal_to('')
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page with null content executed successfully')
 
 
@@ -306,6 +320,7 @@ def test_valid_void_content():
     dic_content = response_content['content']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_content['raw']).is_equal_to('')
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page without content executed successfully')
 
 
@@ -329,6 +344,7 @@ def test_valid_no_content():
     dic_content = response_content['content']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_content['raw']).is_not_empty()
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page with blank content executed successfully')
 
 
@@ -352,6 +368,7 @@ def test_invalid_status():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
     assert_that(response_content['data']['status']).is_equal_to(400)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page with invalid status executed successfully')
 
 
@@ -374,6 +391,7 @@ def test_void_status():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
     assert_that(response_content['data']['status']).is_equal_to(400)
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page with void status executed successfully')
 
 
@@ -395,6 +413,7 @@ def test_null_status():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to('draft')
+    logger.debug(f'Request executed successfully')
     logger.info('Test for create a page without a status executed successfully')
 
 
@@ -416,4 +435,5 @@ def test_invalid_token():
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
     assert_that(responses[dict_response]['error_description']).is_equal_to("Incorrect JWT Format.")
+    logger.debug(f'Request executed successfully')
     logger.info('Test for verify unauthorized (403) at create a page with invalid token executed successfully')
