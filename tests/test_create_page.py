@@ -71,7 +71,7 @@ def test_validate_valid_token():
     logger.info('Test for for create a page using a valid token executed successfully')
 
 
-@pytest.mark.acc
+@pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page with a valid title")
 @allure.step("Method: test_valid_title")
