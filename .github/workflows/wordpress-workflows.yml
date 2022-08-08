@@ -41,6 +41,22 @@ jobs:
         run: |          
           python3 -m pytest tests/test_create_page.py         
           python3 -m pytest tests/test_delete_page.py
+          python3 -m pytest tests/test_get_page.py
 
       - name: Coverage
         run: python3 -m coverage run -m pytest
+
+      - name: Generate Report
+        run: |          
+          python3 -m pytest --alluredir=report/allure-report/.
+          python3 -m pytest -v -m acceptance --alluredir=report/acceptance/.
+          python3 -m pytest -v -m endToend --alluredir=report/endToend/.
+          python3 -m pytest -v -m regression --alluredir=report/regression/.
+          python3 -m pytest -v -m sanity --alluredir=report/sanity/.
+          python3 -m pytest -v -m security --alluredir=report/security/.
+          python3 -m pytest -v -m smoke --alluredir=report/smoke/.
+          python3 -m pytest -v -m negative --alluredir=report/negative/.
+          python3 -m pytest -v -m black_box --alluredir=report/black_box/.
+                
+          
+
