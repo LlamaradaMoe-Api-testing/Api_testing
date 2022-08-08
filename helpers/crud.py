@@ -13,6 +13,7 @@
 
 from utils.api_requests import Api_Requests
 import os
+import allure
 
 
 class CrudPage:
@@ -30,25 +31,37 @@ class CrudPage:
         return responses
 
     def post(self, payload):
-        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/', self.headers, payload)
+        uri = f'{self.base_uri}/wp/v2/pages/'
+        allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
+        response = Api_Requests(uri, self.headers, payload)
         responses = response.get_responses(response.get_request('post'))
+        allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
     def delete(self, id, payload):
-        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', self.headers, payload)
+        uri = f'{self.base_uri}/wp/v2/pages/{id}'
+        allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
+        response = Api_Requests(uri, self.headers, payload)
         responses = response.get_responses(response.get_request('delete'))
+        allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
     def get_all(self):
+        uri = f'{self.base_uri}/wp/v2/pages/'
+        allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
         payload = {}
-        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/', self.headers, payload)
+        response = Api_Requests(uri, self.headers, payload)
         responses = response.get_responses(response.get_request('get'))
+        allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
     def get_by_id(self, id):
+        uri = f'{self.base_uri}/wp/v2/pages/{id}'
+        allure.attach(str(uri), 'URL Requested: ', allure.attachment_type.TEXT)
         payload = {}
-        response = Api_Requests(f'{self.base_uri}/wp/v2/pages/{id}', self.headers, payload)
+        response = Api_Requests(uri, self.headers, payload)
         responses = response.get_responses(response.get_request('get'))
+        allure.attach(str(self.authorization), 'Token used: ', allure.attachment_type.TEXT)
         return responses
 
     def get_token(self, payload):
@@ -72,3 +85,6 @@ class CrudPage:
             'Content-Type': 'application/json'
         }
         return self.post(payload)
+
+    def get_token_used(self):
+        return self.authorization

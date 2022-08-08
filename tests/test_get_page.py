@@ -21,29 +21,37 @@ from utils.dotenv_manager import dotenv_loader
 import os
 import pytest
 import allure
+import logging
 
 dotenv_loader()
 status_code: int = int(os.environ.get('status_code'))
 json_response: int = int(os.environ.get('json_response'))
 dict_response: int = int(os.environ.get('dict_response'))
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
-# happy path
+
+# Happy path
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("test for validate if all the created pages are displayed correctly")
-# Happy path
+@allure.step("Method: test_get_all")
 def test_get_all():
+    logger.info('Executed test for validate get all pages correctly')
     get_token()
     responses = CrudPage().get_all()
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.OK)
     pretty_print(responses[json_response])
+    logger.info('Test for validate get all pages correctly executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status publish is displayed correctly")
+@allure.step("Method: test_get_page_id_publish")
 def test_get_page_id_publish():
+    logger.info('Execute test for get a page by id')
     get_token()
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
@@ -54,12 +62,15 @@ def test_get_page_id_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_equal_to('publish')
     pretty_print(json)
+    logger.info('Test for get a page by id executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status trash is displayed correctly")
+@allure.step("Method: test_get_page_id_trash")
 def test_get_page_id_trash():
+    logger.info('Execute test for get a page created with status "trash"')
     get_token()
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
@@ -73,12 +84,15 @@ def test_get_page_id_trash():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_equal_to('trash')
     pretty_print(json)
+    logger.info('Test for get a page created with status "trash" executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status draft is displayed correctly")
+@allure.step("Method: test_get_page_id_draft")
 def test_get_page_id_draft():
+    logger.info('Execute test for get a page created with status "draft"')
     get_token()
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
@@ -89,24 +103,30 @@ def test_get_page_id_draft():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_equal_to('draft')
     pretty_print(json)
+    logger.info('Test for get a page created with status "draft" executed successfully')
 
 
 # Negative Test
 @pytest.mark.negative
 @allure.suite("negative")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
+@allure.step("Method: test_get_id_notexist")
 def test_get_id_notexist():
+    logger.info('Execute test for validate status not found (404) at get a page with no existing id')
     get_token()
     id = 'cuare'
     responses = CrudPage().get_by_id(id)
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.NOT_FOUND)
     pretty_print(responses[json_response])
+    logger.info('Test for validate status not found (404) at get a page with no existing id executed successfully')
 
 
 @pytest.mark.negative
 @allure.suite("negative")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
+@allure.step("Method: test_get_page_id_is_not_publish")
 def test_get_page_id_is_not_publish():
+    logger.info('Execute test for validate if page created with an invalid id is not displayed')
     get_token()
     requests = CrudPage().post(schema_draft())
     title = requests[dict_response]['title']['rendered']
@@ -117,12 +137,15 @@ def test_get_page_id_is_not_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_not_equal_to('publish')
     pretty_print(json)
+    logger.info('Test for validate if page created with an invalid id is not displayed executed successfully')
 
 
 @pytest.mark.negative
 @allure.suite("negative")
 @allure.title("test for validate the status of page is not trash")
+@allure.step("Method: test_get_page_id_is_not_publish")
 def test_get_page_id_is_not_publish():
+    logger.info('Executed test for get pages with validate the status not trash')
     get_token()
     requests = CrudPage().post(body())
     title = requests[dict_response]['title']['rendered']
@@ -133,3 +156,4 @@ def test_get_page_id_is_not_publish():
     assert_that(dict['title']['rendered']).is_equal_to(title)
     assert_that(dict['status']).is_not_equal_to('trash')
     pretty_print(json)
+    logger.info('Test for get pages with validate the status not trash executed successfully')

@@ -10,6 +10,7 @@
 # accordance with the terms of the license agreement you entered into
 # with Jalasoft.
 #
+import logging
 import allure
 from assertpy.assertpy import assert_that
 import json
@@ -28,12 +29,17 @@ status_code: int = int(os.environ.get('status_code'))
 json_response: int = int(os.environ.get('json_response'))
 dict_response: int = int(os.environ.get('dict_response'))
 
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+
 
 # Happy path
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page")
+@allure.step("Method: test_create_post")
 def test_create_post():
+    logger.info('Execute test for create a page')
     get_token()
     payload = json.dumps({
       "title": "Validate status response!",
@@ -43,13 +49,16 @@ def test_create_post():
     responses = CrudPage().post(payload)
     pretty_print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    logger.info('Test for create a page executed successfully')
     return responses[dict_response]['id']
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page with a valid token")
+@allure.step("Method: test_validate_valid_token")
 def test_validate_valid_token():
+    logger.info('Execute test for create a page using a valid token')
     get_token()
     payload = json.dumps({
         "title": "Valid token!",
@@ -59,12 +68,15 @@ def test_validate_valid_token():
     responses = CrudPage().post(payload)
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
+    logger.info('Test for for create a page using a valid token executed successfully')
 
 
-@pytest.mark.acceptance
+@pytest.mark.acc
 @allure.suite("acceptance")
 @allure.title("Test for create a page with a valid title")
+@allure.step("Method: test_valid_title")
 def test_valid_title():
+    logger.info('Execute test for create a page using a valid title')
     get_token()
     title = "Valid title"
     payload = json.dumps({
@@ -79,12 +91,15 @@ def test_valid_title():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['title']).is_not_empty()
     assert_that(response_title['raw']).is_equal_to(title)
+    logger.info('Test for create a page using a valid title executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page with a valid content")
+@allure.step("Method: test_valid_content")
 def test_valid_content():
+    logger.info('Execute test for create a page using a valid content')
     get_token()
     content = "test for validate the content"
     payload = json.dumps({
@@ -99,12 +114,15 @@ def test_valid_content():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['content']).is_not_empty()
     assert_that(resp_content['raw']).is_equal_to(content)
+    logger.info('Test for create a page using a valid content executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page with status publish")
+@allure.step("Method: test_valid_status_publish")
 def test_valid_status_publish():
+    logger.info('Execute test for create a page using the status "publish"')
     get_token()
     status = "publish"
     payload = json.dumps({
@@ -117,12 +135,15 @@ def test_valid_status_publish():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to(status)
+    logger.info('Test for create a page using the status "publish" executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page with status draft")
+@allure.step("Method: test_valid_status_draft")
 def test_valid_status_draft():
+    logger.info('Execute test for create a page using the status "draft"')
     get_token()
     status = "draft"
     payload = json.dumps({
@@ -135,12 +156,15 @@ def test_valid_status_draft():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to(status)
+    logger.info('Test for create a page using the status "draft" executed successfully')
 
 
 @pytest.mark.acceptance
 @allure.suite("acceptance")
 @allure.title("Test for create a page with status private")
+@allure.step("Method: test_valid_status_private")
 def test_valid_status_private():
+    logger.info('Execute test for create a page using the status "private"')
     get_token()
     status = "private"
     payload = json.dumps({
@@ -153,12 +177,15 @@ def test_valid_status_private():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to(status)
+    logger.info('Test for create a page using the status "private" executed successfully')
 
 
 @pytest.mark.endToend
 @allure.suite("endToend")
 @allure.title("Test for validate the schema response at create a page")
+@allure.step("Method: test_validate_schema")
 def test_validate_schema():
+    logger.info('Execute test for validate the response schema')
     get_token()
     file = open('./helpers/schema-create.json', "r")
     schema = json.loads(file.read())
@@ -171,13 +198,16 @@ def test_validate_schema():
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     schema_test = json.loads(responses[json_response])
     validate(instance=schema_test, schema=schema)
+    logger.info('Test for validate the response schema executed successfully')
 
 
 # Negative tests
 @pytest.mark.regression
 @allure.suite("regression")
 @allure.title("Test for create a page without a title")
+@allure.step("Method: test_valid_no_title")
 def test_valid_no_title():
+    logger.info('Execute test for create a page without a title, by default (none)')
     get_token()
     payload = json.dumps({
         "title": "",
@@ -190,12 +220,15 @@ def test_valid_no_title():
     dic_title = response_content['title']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_title['raw']).is_equal_to('')
+    logger.info('Test for create a page without a title executed successfully')
 
 
 @pytest.mark.regression
 @allure.suite("regression")
 @allure.title("Test for create a page with blank title")
+@allure.step("Method: test_valid_void_title")
 def test_valid_void_title():
+    logger.info('Execute test for create a page without a title, by default (none)')
     get_token()
     payload = json.dumps({
         "title": "  ",
@@ -208,12 +241,15 @@ def test_valid_void_title():
     dic_title = response_content['title']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_title['raw']).is_equal_to('')
+    logger.info('Test for create a page without a title executed successfully')
 
 
 @pytest.mark.regression
 @allure.suite("regression")
 @allure.title("Test for create a page with null title")
+@allure.step("Method: test_valid_null_title")
 def test_valid_null_title():
+    logger.info('Executed test for create a page with null a title, by default (none)')
     get_token()
     payload = json.dumps({
         "status": "publish",
@@ -225,6 +261,7 @@ def test_valid_null_title():
     dic_title = response_content['title']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_title['raw']).is_equal_to('')
+    logger.info('Test for create a page with null a title executed successfully')
 
 
 @pytest.mark.regression
@@ -232,7 +269,9 @@ def test_valid_null_title():
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with null content")
+@allure.step("Method: test_valid_null_content")
 def test_valid_null_content():
+    logger.info('Execute test for create a page with null content')
     get_token()
     payload = json.dumps({
         "title": "null content",
@@ -244,6 +283,7 @@ def test_valid_null_content():
     dic_content = response_content['content']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_content['raw']).is_equal_to('')
+    logger.info('Test for create a page with null content executed successfully')
 
 
 @pytest.mark.regression
@@ -251,7 +291,9 @@ def test_valid_null_content():
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page without content")
+@allure.step("Method: test_valid_void_content")
 def test_valid_void_content():
+    logger.info('Execute test for create a page without content')
     get_token()
     payload = json.dumps({
         "title": "void content",
@@ -264,6 +306,7 @@ def test_valid_void_content():
     dic_content = response_content['content']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_content['raw']).is_equal_to('')
+    logger.info('Test for create a page without content executed successfully')
 
 
 @pytest.mark.regression
@@ -271,7 +314,9 @@ def test_valid_void_content():
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with blank content")
+@allure.step("Method: test_valid_no_content")
 def test_valid_no_content():
+    logger.info('Execute test for create a page with blank content')
     get_token()
     payload = json.dumps({
         "title": "void content",
@@ -284,6 +329,7 @@ def test_valid_no_content():
     dic_content = response_content['content']
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(dic_content['raw']).is_not_empty()
+    logger.info('Test for create a page with blank content executed successfully')
 
 
 @pytest.mark.regression
@@ -291,7 +337,9 @@ def test_valid_no_content():
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with invalid status")
+@allure.step("Method: test_invalid_status")
 def test_invalid_status():
+    logger.info('Execute test for verify bad request (400) at create a page with invalid status')
     get_token()
     status = 'not a status'
     payload = json.dumps({
@@ -304,6 +352,7 @@ def test_invalid_status():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
     assert_that(response_content['data']['status']).is_equal_to(400)
+    logger.info('Test for create a page with invalid status executed successfully')
 
 
 @pytest.mark.regression
@@ -311,7 +360,9 @@ def test_invalid_status():
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with void status")
+@allure.step("Method: test_void_status")
 def test_void_status():
+    logger.info('Execute test for verify bad request (400) at create a page with void status')
     get_token()
     payload = json.dumps({
         "title": "void content",
@@ -323,6 +374,7 @@ def test_void_status():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.BAD_REQUEST)
     assert_that(response_content['data']['status']).is_equal_to(400)
+    logger.info('Test for create a page with void status executed successfully')
 
 
 @pytest.mark.regression
@@ -330,7 +382,9 @@ def test_void_status():
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with default status")
+@allure.step("Method: test_null_status")
 def test_null_status():
+    logger.info('Execute test for create a page without a status, by default "draft"')
     get_token()
     payload = json.dumps({
         "title": "void content",
@@ -341,6 +395,7 @@ def test_null_status():
     response_content = responses[dict_response]
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
     assert_that(response_content['status']).is_equal_to('draft')
+    logger.info('Test for create a page without a status executed successfully')
 
 
 @pytest.mark.regression
@@ -348,7 +403,9 @@ def test_null_status():
 @allure.suite("regression")
 @allure.suite("security")
 @allure.title("Test for create a page with invalid token")
+@allure.step("Method: test_invalid_token")
 def test_invalid_token():
+    logger.info('Execute test for verify unauthorized (403) at create a page with invalid token')
     invalid_token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey'
     payload = json.dumps({
         "title": "invalid token",
@@ -359,3 +416,4 @@ def test_invalid_token():
     print(responses[json_response])
     assert_that(responses[status_code]).is_equal_to(HTTPStatus.UNAUTHORIZED)
     assert_that(responses[dict_response]['error_description']).is_equal_to("Incorrect JWT Format.")
+    logger.info('Test for verify unauthorized (403) at create a page with invalid token executed successfully')
