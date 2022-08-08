@@ -49,13 +49,13 @@ jobs:
       - name: Generate Report
         run: |          
           python3 -m pytest --alluredir=report/allure-report/.
-          python3 -m pytest -v -m acceptance --alluredir=report/allure-report/acceptance/.
-          python3 -m pytest -v -m endToend --alluredir=report/allure-report/endToend/.
-          python3 -m pytest -v -m regression --alluredir=report/allure-report/regression/.
-          python3 -m pytest -v -m sanity --alluredir=report/allure-report/sanity/.
-          python3 -m pytest -v -m security --alluredir=report/allure-report/security/.
-          python3 -m pytest -v -m smoke --alluredir=report/allure-report/smoke/.
-          python3 -m pytest -v -m black_box --alluredir=report/allure-report/black_box/.
-          python3 -m pytest -v -m negative --alluredir=report/allure-report/negative/.        
+          python3 -m pytest -v -m acceptance --alluredir=report/acceptance/.
+          python3 -m pytest -v -m endToend --alluredir=report/endToend/.
+          python3 -m pytest -v -m regression --alluredir=report/regression/.
+          python3 -m pytest -v -m sanity --alluredir=report/sanity/.
+          python3 -m pytest -v -m security --alluredir=report/security/.
+          python3 -m pytest -v -m smoke --alluredir=report/smoke/.
+          python3 -m pytest -v -m black_box --alluredir=report/black_box/.
+          python3 -m pytest -v -m negative --alluredir=report/negative/.        
           
 
