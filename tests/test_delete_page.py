@@ -71,8 +71,8 @@ def test_deleted_with_send_payload():
     logger.info('Test for delete a page by id sending a payload executed successfully')
 
 
-@pytest.mark.black_box
-@allure.suite("black_box")
+@pytest.mark.endToend
+@allure.suite("endToend")
 @allure.title("Test the result schema of delete a page by id")
 @allure.step("Method: test_validate_schema")
 def test_validate_schema():
