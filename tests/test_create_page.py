@@ -54,31 +54,6 @@ def setup_requisites():
 @allure.suite("acceptance")
 @allure.title("Test for create a page")
 @allure.step("Method: test_create_post")
-def test_create_post2():
-    logger.info('Execute test for create a page')
-    payload = json.dumps({
-      "title": "Validate status response!",
-      "status": "     ssssssssssssssss    ",
-      "content": "test for validate the status response"
-    })
-    responses = CrudPage().post(payload)
-    pretty_print(responses[json_response])
-    assert_that(responses[status_code]).is_equal_to(HTTPStatus.CREATED)
-    logger.debug(f'Request executed successfully')
-    logger.info('Test for create a page executed successfully')
-    allure.attach(responses[json_response], 'JSON response: ', allure.attachment_type.JSON)
-    global page_id
-    page_id = responses[dict_response]['id']
-    return responses[dict_response]['id']
-
-
-@pytest.mark.regression
-@pytest.mark.acceptance
-@allure.severity(allure.severity_level.CRITICAL)
-@allure.suite("regression")
-@allure.suite("acceptance")
-@allure.title("Test for create a page")
-@allure.step("Method: test_create_post")
 def test_create_post():
     logger.info('Execute test for create a page')
     payload = json.dumps({
