@@ -46,7 +46,8 @@ def test_get_all():
     try:
         get_token()
     except:
-        logger.info('Test for validate get all pages correctly executed successfully')
+        logger.info('The Token is not valid')
+        raise ConnectionError
     else:
         responses = CrudPage().get_all()
         try:
@@ -54,13 +55,18 @@ def test_get_all():
             logger.info('Test for validate get all pages correctly executed successfully')
         except:
             logger.info('The status of request not is valid please review if have page created and xammp turn on')
+            raise ConnectionError
         finally:
             pretty_print(responses[json_response])
+
+
+@allure.step('Setup: "{0}", keyword: "{key}"')
+def step_with_title_placeholders(arg1, key=None):
+    pass
 
 @pytest.mark.acceptance
 @pytest.mark.sanity
 @pytest.mark.regresion
-@pytest.mark.sanity
 @allure.suite("acceptance")
 @allure.suite("regression")
 @allure.suite("sanity")
@@ -68,8 +74,10 @@ def test_get_all():
 @allure.step("Method: test_get_page_id_publish")
 def test_get_page_id_publish():
     logger.info('Execute test for get a page by id')
+
     get_token()
     requests = CrudPage().post(body())
+    step_with_title_placeholders(1, requests)
     title = requests[dict_response]['title']['rendered']
     responses = CrudPage().get_by_id(requests[dict_response]['id'])
     json = responses[json_response]
