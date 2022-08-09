@@ -34,6 +34,7 @@ logger.setLevel(logging.DEBUG)
 
 # Happy path
 @pytest.mark.acceptance
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.suite("acceptance")
 @allure.title("test for validate if all the created pages are displayed correctly")
 @allure.step("Method: test_get_all")
@@ -48,6 +49,7 @@ def test_get_all():
 
 
 @pytest.mark.acceptance
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status publish is displayed correctly")
 @allure.step("Method: test_get_page_id_publish")
@@ -68,6 +70,7 @@ def test_get_page_id_publish():
 
 
 @pytest.mark.acceptance
+@allure.severity(allure.severity_level.CRITICAL)
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status trash is displayed correctly")
 @allure.step("Method: test_get_page_id_trash")
@@ -91,6 +94,7 @@ def test_get_page_id_trash():
 
 
 @pytest.mark.acceptance
+@allure.severity(allure.severity_level.TRIVIAL)
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status draft is displayed correctly")
 @allure.step("Method: test_get_page_id_draft")

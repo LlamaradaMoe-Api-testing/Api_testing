@@ -10,8 +10,8 @@
 # accordance with the terms of the license agreement you entered into
 # with Jalasoft.
 #
-
-
+import allure
+from allure import step
 from assertpy.assertpy import assert_that
 from http import HTTPStatus
 from helpers.crud import CrudPage
@@ -33,6 +33,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 
+@allure.step('getting the token')
 def get_token():
     logger.debug('Attempt to get token')
     payload = {'username': USERNAME, 'password': PASSWORD}
@@ -55,3 +56,4 @@ def get_token():
     new_file.close()
     dotenv_reload()
     logger.debug('Token obtained')
+    allure.attach(str('Bearer ' + responses[dict_response]['jwt_token']), 'Token used: ', allure.attachment_type.TEXT)

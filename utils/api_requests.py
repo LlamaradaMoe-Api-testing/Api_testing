@@ -10,7 +10,7 @@
 # accordance with the terms of the license agreement you entered into
 # with Jalasoft.
 #
-
+import allure
 import requests
 import json
 import logging
@@ -24,12 +24,6 @@ class Api_Requests:
         self.url: str = url
         self.headers: dict = headers
         self.payload: dict = payload
-        # self.request_dic: dict = {
-        #     'put': requests.put(self.url, headers=self.headers, data=self.payload),
-        #     'get': requests.get(self.url, headers=self.headers, data=self.payload),
-        #     'post': requests.post(self.url, headers=self.headers, data=self.payload),
-        #     'delete': requests.delete(self.url, headers=self.headers, data=self.payload)
-        # }
 
     def get_request(self, method):
         return self.request_dic.get(method)
@@ -48,10 +42,13 @@ class Api_Requests:
         logger.debug('Generating the request')
         if method == 'get':
             api_request = requests.get(self.url, headers=self.headers, data=self.payload)
+            allure.attach('GET', 'Method: ', allure.attachment_type.TEXT)
         if method == 'post':
             api_request = requests.post(self.url, headers=self.headers, data=self.payload)
+            allure.attach('POST', 'Method: ', allure.attachment_type.TEXT)
         if method == 'delete':
             api_request = requests.delete(self.url, headers=self.headers, data=self.payload)
+            allure.attach('DELETE', 'Method: ', allure.attachment_type.TEXT)
         status_code = api_request.status_code
         try:
             dict_response = api_request.json()
