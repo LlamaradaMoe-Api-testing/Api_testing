@@ -231,6 +231,8 @@ def test_valid_status_private():
 
 @pytest.mark.endToend
 @allure.severity(allure.severity_level.TRIVIAL)
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("endToend")
 @allure.title("Test for validate the schema response at create a page")
 @allure.step("Method: test_validate_schema")
@@ -400,6 +402,7 @@ def test_valid_no_content():
 @pytest.mark.regression
 @pytest.mark.sanity
 @pytest.mark.negative
+@allure.suite("negative")
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with invalid status")
@@ -424,6 +427,7 @@ def test_invalid_status():
 @pytest.mark.regression
 @pytest.mark.sanity
 @pytest.mark.negative
+@allure.suite("negative")
 @allure.suite("regression")
 @allure.suite("sanity")
 @allure.title("Test for create a page with void status")
