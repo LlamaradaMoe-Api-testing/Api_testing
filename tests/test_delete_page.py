@@ -88,10 +88,10 @@ def test_deleted_with_send_payload():
 
 
 @pytest.mark.regression
-@pytest.mark.black_box
+@pytest.mark.endToend
 @allure.severity(allure.severity_level.TRIVIAL)
 @allure.suite("regression")
-@allure.suite("black_box")
+@allure.suite("endToend")
 @allure.title("Test the result schema of delete a page by id")
 @allure.step("Method: test_validate_schema")
 def test_validate_schema():
