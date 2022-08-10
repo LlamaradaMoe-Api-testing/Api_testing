@@ -9,7 +9,6 @@ env:
   status_code:  1
   dict_response: 0
   json_response: 2
-  #AUTHORIZATION1: python3 get_token.py
 
 jobs:
   build:
@@ -41,7 +40,8 @@ jobs:
           cat .env           
 
       - name: Run pytest
-        run: |
+        run: |          
+          python3 -m pytest tests/test_create_page.py
           python3 -m pytest tests/test_delete_page.py
           python3 -m pytest tests/test_get_page.py
 

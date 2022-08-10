@@ -89,7 +89,7 @@ def test_deleted_with_send_payload():
 
 @pytest.mark.regression
 @pytest.mark.endToend
-@allure.severity(allure.severity_level.TRIVIAL)
+@allure.severity(allure.severity_level.NORMAL)
 @allure.suite("regression")
 @allure.suite("endToend")
 @allure.title("Test the result schema of delete a page by id")

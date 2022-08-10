@@ -58,7 +58,7 @@ def test_create_post():
     logger.info('Execute test for create a page')
     payload = json.dumps({
       "title": "Validate status response!",
-      "status": "ssssss",
+      "status": "publish",
       "content": "test for validate the status response"
     })
     responses = CrudPage().post(payload)
@@ -230,7 +230,7 @@ def test_valid_status_private():
 
 
 @pytest.mark.endToend
-@allure.severity(allure.severity_level.TRIVIAL)
+@allure.severity(allure.severity_level.NORMAL)
 @pytest.mark.regression
 @allure.suite("regression")
 @allure.suite("endToend")

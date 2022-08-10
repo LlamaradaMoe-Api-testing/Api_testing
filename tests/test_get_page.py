@@ -99,7 +99,7 @@ def test_get_page_id_trash():
     logger.info('Test for get a page created with status "trash" executed successfully')
 
 
-@allure.severity(allure.severity_level.TRIVIAL)
+@allure.severity(allure.severity_level.NORMAL)
 @pytest.mark.acceptance
 @pytest.mark.regression
 @allure.suite("regression")
