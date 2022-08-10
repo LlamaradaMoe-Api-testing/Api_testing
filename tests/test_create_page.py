@@ -230,7 +230,7 @@ def test_valid_status_private():
 
 
 @pytest.mark.endToend
-@allure.severity(allure.severity_level.NORMAL)
+@allure.severity(allure.severity_level.MINOR)
 @pytest.mark.regression
 @allure.suite("regression")
 @allure.suite("endToend")
