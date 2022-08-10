@@ -58,7 +58,7 @@ def test_create_post():
     logger.info('Execute test for create a page')
     payload = json.dumps({
       "title": "Validate status response!",
-      "status": "publish",
+      "status": "ssssss",
       "content": "test for validate the status response"
     })
     responses = CrudPage().post(payload)

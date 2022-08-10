@@ -24,6 +24,9 @@ jobs:
       - name: Install coverage
         run: pip3 install coverage
 
+      - name: start xampp
+        run: sudo /opt/lampp/lampp start
+
       - name: Set config variables
         run: |
           touch .env
@@ -39,7 +42,7 @@ jobs:
 
       - name: Run pytest
         run: |          
-          python3 -m pytest tests/test_create_page.py         
+#          python3 -m pytest tests/test_create_page.py
           python3 -m pytest tests/test_delete_page.py
           python3 -m pytest tests/test_get_page.py
 
