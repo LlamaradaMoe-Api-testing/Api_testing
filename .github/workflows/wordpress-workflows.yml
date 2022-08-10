@@ -41,8 +41,7 @@ jobs:
           cat .env           
 
       - name: Run pytest
-        run: |          
-#          python3 -m pytest tests/test_create_page.py
+        run: |
           python3 -m pytest tests/test_delete_page.py
           python3 -m pytest tests/test_get_page.py
 
