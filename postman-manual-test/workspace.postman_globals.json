@@ -1,0 +1,57 @@
+{
+	"id": "c1c5ed0a-a71d-41f8-8e91-38d58ed687eb",
+	"values": [
+		{
+			"key": "site",
+			"value": "http://localhost/wordpress",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Authorization",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJhYmFycmllbnRvIiwiaWF0IjoxNjYwMDc3OTI1LCJleHAiOjE4MTc3NTc5MjV9.Rb74pocHxicViHUO9aQuFZo7EPfTs4HSs-0KRrSXt00",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Cookie",
+			"value": "wordpress_test_cookie=WP%20Cookie%20check; wordpress_logged_in_6895bee2a097ffb11fc81c8ff67ee16d=freddy%7C1658411234%7Cs2vYRuBtZbsEZF2BS49YCAV58REZGkvM5DpUhvc4SpA%7Ca3c3055e7598dd9f74c56f3c713928533c13b73ca29784e62b0af419ad9ee160; wp-settings-time-1=1658245061; jenkins-timestamper-offset=14400000; _ga=GA1.1.268673621.1657157213; remember-me=ZnJlZGR5OjE2NTg3NzE4NDQyNzg6MDA3N2Y0NTdmMjVkZDQ0NjkxOTc4MGRiNmQ4MWU5MjAzOGFkMjM5ZjQ2MmNhODE0MGNkOGIzZGY4NjU1OTNjZg",
+			"type": "default",
+			"enabled": false
+		},
+		{
+			"key": "X-WP-Nonce",
+			"value": "9da5ddda8c",
+			"type": "default",
+			"enabled": false
+		},
+		{
+			"key": "content",
+			"value": "Test content",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "title",
+			"value": "Title",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "status",
+			"value": "publish",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "pageId",
+			"value": "1738",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2022-08-10T19:22:55.975Z",
+	"_postman_exported_using": "Postman/9.27.2"
+}
