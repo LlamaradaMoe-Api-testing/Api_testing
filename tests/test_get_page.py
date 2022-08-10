@@ -33,8 +33,10 @@ logger.setLevel(logging.DEBUG)
 
 
 # Happy path
-@pytest.mark.acceptance
 @allure.severity(allure.severity_level.CRITICAL)
+@pytest.mark.acceptance
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("acceptance")
 @allure.title("test for validate if all the created pages are displayed correctly")
 @allure.step("Method: test_get_all")
@@ -48,8 +50,10 @@ def test_get_all():
     logger.info('Test for validate get all pages correctly executed successfully')
 
 
-@pytest.mark.acceptance
 @allure.severity(allure.severity_level.CRITICAL)
+@pytest.mark.acceptance
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status publish is displayed correctly")
 @allure.step("Method: test_get_page_id_publish")
@@ -69,8 +73,10 @@ def test_get_page_id_publish():
     logger.info('Test for get a page by id executed successfully')
 
 
-@pytest.mark.acceptance
 @allure.severity(allure.severity_level.CRITICAL)
+@pytest.mark.acceptance
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status trash is displayed correctly")
 @allure.step("Method: test_get_page_id_trash")
@@ -93,8 +99,10 @@ def test_get_page_id_trash():
     logger.info('Test for get a page created with status "trash" executed successfully')
 
 
+@allure.severity(allure.severity_level.MINOR)
 @pytest.mark.acceptance
-@allure.severity(allure.severity_level.TRIVIAL)
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("acceptance")
 @allure.title("test for validate if a created page with status draft is displayed correctly")
 @allure.step("Method: test_get_page_id_draft")
@@ -116,6 +124,8 @@ def test_get_page_id_draft():
 
 # Negative Test
 @pytest.mark.negative
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("negative")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
 @allure.step("Method: test_get_id_notexist")
@@ -131,6 +141,8 @@ def test_get_id_notexist():
 
 
 @pytest.mark.negative
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("negative")
 @allure.title("test for validate if a created page that dont have id valid is not displayed")
 @allure.step("Method: test_get_page_id_is_not_publish")
@@ -151,6 +163,8 @@ def test_get_page_id_is_not_publish():
 
 
 @pytest.mark.negative
+@pytest.mark.regression
+@allure.suite("regression")
 @allure.suite("negative")
 @allure.title("test for validate the status of page is not trash")
 @allure.step("Method: test_get_page_id_is_not_publish")

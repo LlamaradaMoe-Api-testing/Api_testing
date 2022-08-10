@@ -53,8 +53,8 @@ Steps to create the reports
         pytest --alluredir=allure-report/.
         allure serve allure-report/.
     NOTE: if You want to excecute just one type of tests you can use the commands the following way:
-        pytest -v -m <tag> --alluredir=allure-report/.
-        allure serve allure-report/.
+        pytest -v -m <tag> --alluredir=report/<tag>/.
+        allure serve report/<tag>/.
     reemplacing <tag> for one of the tags used in the test, this can be:
         acceptance, smoke, negative, sanity, regressiion, security
 
