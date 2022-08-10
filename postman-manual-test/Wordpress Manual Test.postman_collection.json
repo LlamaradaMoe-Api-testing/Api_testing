@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "c33ffb09-4620-4fba-9f50-6d7d0ccee19a",
+		"name": "Wordpress Manual Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19924614"
+	},
+	"item": [
+		{
+			"name": "Get the JWT Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "abarriento",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "124ares3547",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{site}}/wp-json/api/v1/token",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"api",
+						"v1",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send API Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJSb2RyaWdvIiwiaWF0IjoxNjU4MjQxMjYxLCJleHAiOjE4MTU5MjEyNjF9.Fd-9sqWFNpD-36MTnKz8Dfn18ljh1JB_QPzfWmSaF9s",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/posts",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create page with query",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages?content={{content}}&title={{title}}&status={{status}}",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages"
+					],
+					"query": [
+						{
+							"key": "content",
+							"value": "{{content}}"
+						},
+						{
+							"key": "title",
+							"value": "{{title}}"
+						},
+						{
+							"key": "status",
+							"value": "{{status}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create page",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"newwww!!\", \"status\": \"publish\", \"content\": \"\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages/",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Pages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Pages by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages/{{pageId}}?site=http://localhost/apitest",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages",
+						"{{pageId}}"
+					],
+					"query": [
+						{
+							"key": "site",
+							"value": "http://localhost/apitest"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Page",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages/{{pageId}}",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages",
+						"{{pageId}}"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "9",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Page",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\": 78,\"title\": \"Hello world17!!\", \"status\": \"publish\", \"content\": \"\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages/{{pageId}}",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages",
+						"{{pageId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a Page with query params",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsIm5hbWUiOiJmcmVkZHkiLCJpYXQiOjE2NjAwNzcyMjQsImV4cCI6MTgxNzc1NzIyNH0.b8_RDg08IFzvzY6UPSuoz7l144iA1FwjQBY2VNQCOwA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Authorization}}",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "{{Cookie}}",
+						"type": "text"
+					},
+					{
+						"key": "X-WP-Nonce",
+						"value": "{{X-WP-Nonce}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{site}}/wp-json/wp/v2/pages/{{pageId}}?content={{content}}&title={{title}}&status={{status}}",
+					"host": [
+						"{{site}}"
+					],
+					"path": [
+						"wp-json",
+						"wp",
+						"v2",
+						"pages",
+						"{{pageId}}"
+					],
+					"query": [
+						{
+							"key": "content",
+							"value": "{{content}}"
+						},
+						{
+							"key": "title",
+							"value": "{{title}}"
+						},
+						{
+							"key": "status",
+							"value": "{{status}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Authorization",
+			"value": "FNpD-36MTnKz8Dfn18ljh1JB_QPzfWmSaF9s"
+		}
+	]
+}

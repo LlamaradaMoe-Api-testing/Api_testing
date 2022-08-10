@@ -1,0 +1,119 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "date": {
+      "type": "string"
+    },
+    "date_gmt": {
+      "type": "string"
+    },
+    "guid": {
+      "type": "object",
+      "properties": {
+        "rendered": {
+          "type": "string"
+        },
+        "raw": {
+          "type": "string"
+        }
+      }
+    },
+    "modified": {
+      "type": "string"
+    },
+    "modified_gmt": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "title": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string"
+        },
+        "rendered": {
+          "type": "string"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string"
+        },
+        "rendered": {
+          "type": "string"
+        },
+        "protected": {
+          "type": "boolean"
+        },
+        "block_version": {
+          "type": "integer"
+        }
+      }
+    },
+    "excerpt": {
+      "type": "object",
+      "properties": {
+        "raw": {
+          "type": "string"
+        },
+        "rendered": {
+          "type": "string"
+        },
+        "protected": {
+          "type": "boolean"
+        }
+      }
+    },
+    "author": {
+      "type": "integer"
+    },
+    "featured_media": {
+      "type": "integer"
+    },
+    "parent": {
+      "type": "integer"
+    },
+    "menu_order": {
+      "type": "integer"
+    },
+    "comment_status": {
+      "type": "string"
+    },
+    "ping_status": {
+      "type": "string"
+    },
+    "template": {
+      "type": "string"
+    },
+    "meta": {
+      "type": "array",
+      "items": {}
+    },
+    "permalink_template": {
+      "type": "string"
+    },
+    "generated_slug": {
+      "type": "string"
+    }
+  }
+}
